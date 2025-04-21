@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>eBiblioteczka</title>
+    <script src="script.js"></script>
+</head>
+<body>
+<h1>eBiblioteczka </h1>
+
+<h2>📚 Lista książek</h2>
+<input type="text" id="filter_title" placeholder="Szukaj po tytule">
+<input type="text" id="filter_author" placeholder="Szukaj po autorze">
+<button onclick="loadBooks()">Szukaj</button>
+
+<ul id="book_list"></ul>
+
+
+<h2>Rejestracja</h2>
+<input type="text" id="reg_username" placeholder="Nazwa użytkownika">
+<input type="password" id="reg_password" placeholder="Hasło">
+<button onclick="register()">Zarejestruj</button>
+
+<h2>Logowanie</h2>
+<input type="text" id="log_username" placeholder="Nazwa użytkownika">
+<input type="password" id="log_password" placeholder="Hasło">
+<button onclick="login()">Zaloguj</button>
+
+
+
+<pre id="output"></pre>
+
+
+</body>
+</html>
