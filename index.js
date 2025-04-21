@@ -14,5 +14,7 @@ app.listen(port, () => {
 });
 const authRoutes = require('./routes/auth');
 const booksRouter = require('./routes/books');
+const favoritesRouter = require('./routes/favorites');
+app.use('/api/favorites', favoritesRouter);
 app.use('/api/books',booksRouter);
 app.use('/api/auth', authRoutes);

@@ -7,13 +7,18 @@
 <body>
 <h1>Szczegóły książki</h1>
 <div id="book_details"></div>
-
+<div id="fav_buttons" style="margin-top: 10px;">
+    <button onclick="addToFavorites()">💖 Dodaj do ulubionych</button>
+    <button onclick="removeFromFavorites()">❌ Usuń z ulubionych</button>
+</div>
 <a href="index.html">← Powrót do listy</a>
 
 <script>
+    let bookId;
+    const token = localStorage.getItem('token');
     async function loadBookDetails() {
         const params = new URLSearchParams(window.location.search);
-        const bookId = params.get('id');
+        bookId = params.get('id');
 
         if (!bookId) {
             document.getElementById('book_details').textContent = 'Brak ID książki';
@@ -32,6 +37,46 @@
                 `;
         } catch (err) {
             document.getElementById('book_details').textContent = '❌ Błąd ładowania książki';
+        }
+    }
+
+    async function addToFavorites() {
+        if (!token) {
+            alert("Musisz być zalogowany, by dodać do ulubionych.");
+            return;
+        }
+
+        try {
+            const res = await fetch(`/api/favorites/${bookId}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+            const data = await res.json();
+            alert(data.message || 'Dodano do ulubionych');
+        } catch (err) {
+            alert('❌ Błąd dodawania do ulubionych');
+        }
+    }
+
+    async function removeFromFavorites() {
+        if (!token) {
+            alert("Musisz być zalogowany, by usunąć z ulubionych.");
+            return;
+        }
+
+        try {
+            const res = await fetch(`/api/favorites/${bookId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+            const data = await res.json();
+            alert(data.message || 'Usunięto z ulubionych');
+        } catch (err) {
+            alert('❌ Błąd usuwania z ulubionych');
         }
     }
 

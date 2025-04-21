@@ -36,6 +36,7 @@ async function login() {
 
         if (res.ok && data.token) {
             token = data.token;
+            localStorage.setItem('token', token);
             document.getElementById('output').textContent = '✅ Zalogowano pomyślnie';
         } else {
             document.getElementById('output').textContent = '❌ Błędne dane logowania';
