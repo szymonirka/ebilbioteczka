@@ -82,7 +82,7 @@ async function showDetails(bookId) {
         const res = await fetch(`/api/books/${bookId}`);
         const book = await res.json();
 
-        alert(`📘 ${book.title}\nAutor: ${book.author}`);
+        window.location.href = `book.html?id=${bookId}`;
     } catch (err) {
         alert('❌ Nie udało się pobrać szczegółów książki');
     }

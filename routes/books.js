@@ -1,36 +1,46 @@
 const express = require('express');
 const router = express.Router();
+const pool = require('../db');
 
-//tymczasowa baza
-const books = [
-    { id: 1, title: 'Wiedźmin', author: 'Andrzej Sapkowski' },
-    { id: 2, title: 'Lalka', author: 'Bolesław Prus' }
-]
-
-//lista ksiazek
-
-router.get('/', (req, res) => {
+// Pobierz wszystkie książki (z opcjonalnym filtrowaniem)
+router.get('/', async (req, res) => {
     const { title, author } = req.query;
-    let filtered = books;
+    let sql = 'SELECT * FROM books WHERE 1=1';
+    const params = [];
 
     if (title) {
-        filtered = filtered.filter(book => book.title.toLowerCase().includes(title.toLowerCase()));
+        sql += ' AND title LIKE ?';
+        params.push(`%${title}%`);
     }
 
     if (author) {
-        filtered = filtered.filter(book => book.author.toLowerCase().includes(author.toLowerCase()));
+        sql += ' AND author LIKE ?';
+        params.push(`%${author}%`);
     }
 
-    res.json(filtered);
+    try {
+        const [books] = await pool.query(sql, params);
+        res.json(books);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Błąd pobierania książek' });
+    }
 });
 
+// Szczegóły książki
+router.get('/:id', async (req, res) => {
+    const bookId = req.params.id;
 
-//szczególy ksiązki
+    try {
+        const [rows] = await pool.query('SELECT * FROM books WHERE id = ?', [bookId]);
+        const book = rows[0];
+        if (!book) return res.status(404).json({ message: 'Książka nie znaleziona' });
 
-router.get('/:id', (req, res) => {
-    const book = books.find(b => b.id === parseInt(req.params.id));
-    if(!book) return res.status(404).send("Nie znaleziono książki");
-    res.json(book);
-})
+        res.json(book);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Błąd pobierania szczegółów książki' });
+    }
+});
 
 module.exports = router;

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Szczegóły książki</title>
+</head>
+<body>
+<h1>Szczegóły książki</h1>
+<div id="book_details"></div>
+
+<a href="index.html">← Powrót do listy</a>
+
+<script>
+    async function loadBookDetails() {
+        const params = new URLSearchParams(window.location.search);
+        const bookId = params.get('id');
+
+        if (!bookId) {
+            document.getElementById('book_details').textContent = 'Brak ID książki';
+            return;
+        }
+
+        try {
+            const res = await fetch(`/api/books/${bookId}`);
+            const book = await res.json();
+
+            document.getElementById('book_details').innerHTML = `
+                    <h2>${book.title}</h2>
+                    <p><strong>Autor:</strong> ${book.author}</p>
+                    <p><strong>ID:</strong> ${book.id}</p>
+                    <!-- Możesz dodać więcej szczegółów, np. treść -->
+                `;
+        } catch (err) {
+            document.getElementById('book_details').textContent = '❌ Błąd ładowania książki';
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadBookDetails);
+</script>
+</body>
+</html>
