@@ -92,3 +92,38 @@ async function showDetails(bookId) {
 window.addEventListener('DOMContentLoaded', () => {
     loadBooks();
 });
+
+    // sprawdz status logowania
+
+function checkLoginStatus() {
+    const token = localStorage.getItem('token');
+    const statusDiv = document.getElementById('user_status');
+    const logoutDiv = document.getElementById('logout_button');
+
+    if (!token) {
+        statusDiv.textContent = '🔒 Nie jesteś zalogowany';
+        logoutDiv.innerHTML = '';
+        return;
+    }
+
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const username = payload.username;
+        statusDiv.textContent = `👋 Zalogowany jako: ${username}`;
+        logoutDiv.innerHTML = `
+            <button onclick="logout()">🚪 Wyloguj się</button>
+        `;
+    } catch (err) {
+        console.error('Błąd dekodowania tokena:', err);
+        statusDiv.textContent = '❌ Błąd odczytu loginu';
+        logoutDiv.innerHTML = '';
+    }
+}
+
+function logout() {
+    localStorage.removeItem('token');
+    window.location.reload();
+}
+window.addEventListener('DOMContentLoaded', () => {
+    checkLoginStatus();
+});

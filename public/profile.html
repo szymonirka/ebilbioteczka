@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Moje konto</title>
+</head>
+<body>
+<h1>👤 Panel użytkownika</h1>
+
+<h2>💖 Moje ulubione książki</h2>
+<ul id="favorites_list"></ul>
+
+<h2> Zmień hasło </h2>
+<input type="password" id = "new_password" placeholder="Nowe hasło">
+<button onclick="changePassword()">Zmień hasło</button>
+
+<h2>✏️ Zmień nazwę użytkownika</h2>
+<input type="text" id="new_username" placeholder="Nowa nazwa użytkownika">
+<button onclick="changeUsername()">Zmień nazwę</button>
+<h2>❌ Usuń konto</h2>
+
+<button onclick="deleteAccount()"> Usuń moje konto</button>
+
+<p><a href="index.html">← Powrót</a></p>
+
+<script>
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+        alert("Musisz być zalogowany.");
+        window.location.href = "index.html";
+    }
+
+    async function loadFavorites() {
+        try {
+            const res = await fetch('/api/favorites', {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+
+            const books = await res.json();
+            const list = document.getElementById('favorites_list');
+            list.innerHTML = '';
+
+            books.forEach(book => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                        <a href="book.html?id=${book.id}">${book.title}</a> – ${book.author}
+                        <button onclick="removeFavorite(${book.id})">❌ Usuń</button>
+                    `;
+                list.appendChild(li);
+            });
+
+        } catch (err) {
+            console.error(err);
+            alert("Błąd pobierania ulubionych książek.");
+        }
+    }
+
+    async function removeFavorite(bookId) {
+        try {
+            const res = await fetch(`/api/favorites/${bookId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+            const data = await res.json();
+            alert(data.message);
+            loadFavorites();
+        } catch (err) {
+            console.error(err);
+            alert("Błąd usuwania z ulubionych.");
+        }
+    }
+
+    async function changePassword() {
+        const newPassword = document.getElementById('new_password').value;
+        if (!newPassword) return alert("Wprowadź nowe hasło");
+
+        try {
+            const res = await fetch('/api/users/change-password', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({ newPassword })
+            });
+            const data = await res.json();
+            alert(data.message);
+        } catch (err) {
+            console.error(err);
+            alert("Błąd zmiany hasła.");
+        }
+    }
+
+    async function deleteAccount() {
+        if (!confirm("Czy na pewno chcesz usunąć konto?")) return;
+
+        try {
+            const res = await fetch('/api/users/delete', {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+            const data = await res.json();
+            alert(data.message);
+            localStorage.removeItem('token');
+            window.location.href = 'index.html';
+        } catch (err) {
+            console.error(err);
+            alert("Błąd usuwania konta.");
+        }
+    }
+    async function changeUsername() {
+        const newUsername = document.getElementById('new_username').value;
+        if (!newUsername) return alert("Wpisz nową nazwę użytkownika");
+
+        try {
+            const res = await fetch('/api/users/change-username', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({ newUsername })
+            });
+
+            const data = await res.json();
+            alert(data.message);
+            if (res.ok) {
+                localStorage.removeItem('token');
+                window.location.href = 'index.html';
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Błąd przy zmianie nazwy użytkownika.");
+        }
+    }
+
+
+    window.addEventListener('DOMContentLoaded', loadFavorites);
+</script>
+</body>
+</html>
