@@ -99,26 +99,36 @@ function checkLoginStatus() {
     const token = localStorage.getItem('token');
     const statusDiv = document.getElementById('user_status');
     const logoutDiv = document.getElementById('logout_button');
+    const adminLinkDiv = document.getElementById('admin_panel_link'); // nowy div na link admina
 
     if (!token) {
         statusDiv.textContent = '🔒 Nie jesteś zalogowany';
         logoutDiv.innerHTML = '';
+        adminLinkDiv.innerHTML = '';
         return;
     }
 
     try {
         const payload = JSON.parse(atob(token.split('.')[1]));
         const username = payload.username;
+        const role = payload.role; // ważne: musimy wyciągnąć też role
+
         statusDiv.textContent = `👋 Zalogowany jako: ${username}`;
-        logoutDiv.innerHTML = `
-            <button onclick="logout()">🚪 Wyloguj się</button>
-        `;
+        logoutDiv.innerHTML = `<button onclick="logout()">🚪 Wyloguj się</button>`;
+
+        if (role === 'admin') {
+            adminLinkDiv.innerHTML = `<a href="admin.html">⚙️ Panel Administratora</a>`;
+        } else {
+            adminLinkDiv.innerHTML = '';
+        }
     } catch (err) {
         console.error('Błąd dekodowania tokena:', err);
         statusDiv.textContent = '❌ Błąd odczytu loginu';
         logoutDiv.innerHTML = '';
+        adminLinkDiv.innerHTML = '';
     }
 }
+
 
 function logout() {
     localStorage.removeItem('token');

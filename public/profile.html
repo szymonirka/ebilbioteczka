@@ -11,6 +11,7 @@
 <ul id="favorites_list"></ul>
 
 <h2> Zmień hasło </h2>
+<input type="password" id="old_password" placeholder="Stare hasło">
 <input type="password" id = "new_password" placeholder="Nowe hasło">
 <button onclick="changePassword()">Zmień hasło</button>
 
@@ -76,8 +77,12 @@
     }
 
     async function changePassword() {
+        const oldPassword = document.getElementById('old_password').value;
         const newPassword = document.getElementById('new_password').value;
-        if (!newPassword) return alert("Wprowadź nowe hasło");
+
+        if (!oldPassword || !newPassword) {
+            return alert("Wpisz stare i nowe hasło");
+        }
 
         try {
             const res = await fetch('/api/users/change-password', {
@@ -86,8 +91,9 @@
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token
                 },
-                body: JSON.stringify({ newPassword })
+                body: JSON.stringify({ oldPassword, newPassword })
             });
+
             const data = await res.json();
             alert(data.message);
         } catch (err) {
@@ -95,6 +101,7 @@
             alert("Błąd zmiany hasła.");
         }
     }
+
 
     async function deleteAccount() {
         if (!confirm("Czy na pewno chcesz usunąć konto?")) return;

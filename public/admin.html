@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel Administratora</title>
+</head>
+<body>
+<h1>👑 Panel Administratora</h1>
+
+<div id="admin_status"></div>
+
+<section>
+  <h2>📚 Zarządzanie książkami</h2>
+  <input type="text" id="book_title" placeholder="Tytuł">
+  <input type="text" id="book_author" placeholder="Autor">
+  <textarea id="book_content" placeholder="Treść książki"></textarea>
+  <button onclick="addBook()">Dodaj książkę</button>
+
+  <h3>📖 Istniejące książki:</h3>
+  <ul id="book_list"></ul>
+</section>
+
+<hr>
+
+<section>
+  <h2>👥 Zarządzanie isniejącymi użytkownikami</h2>
+  <ul id="user_list"></ul>
+</section>
+
+<h2>➕ Dodaj użytkownika</h2>
+<input type="text" id="new_user_username" placeholder="Nazwa użytkownika">
+<input type="password" id="new_user_password" placeholder="Hasło">
+<input type="password" id="new_user_confirm_password" placeholder="Potwierdź hasło">
+<select id="new_user_role">
+  <option value="user">Użytkownik</option>
+  <option value="admin">Administrator</option>
+</select>
+<button onclick="createUser()">Dodaj użytkownika</button>
+
+
+<p><a href="index.html">← Powrót do strony głównej</a></p>
+
+<script>
+  const token = localStorage.getItem('token');
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + token
+  };
+
+  // Sprawdź rolę
+  function checkAdmin() {
+    if (!token) {
+      alert("Brak dostępu – zaloguj się jako administrator.");
+      window.location.href = "index.html";
+      return;
+    }
+
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    if (payload.role !== 'admin') {
+      alert("Dostęp tylko dla administratorów.");
+      window.location.href = "index.html";
+    } else {
+      document.getElementById('admin_status').textContent = `Zalogowany jako: ${payload.username} (admin)`;
+    }
+  }
+
+  // Książki
+  async function loadBooks() {
+    const res = await fetch('/api/books');
+    const books = await res.json();
+    const list = document.getElementById('book_list');
+    list.innerHTML = '';
+
+    books.forEach(book => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+                    <strong>${book.title}</strong> – ${book.author}
+                    <button onclick="deleteBook(${book.id})">🗑️ Usuń</button>
+                `;
+      list.appendChild(li);
+    });
+  }
+
+  async function addBook() {
+    const title = document.getElementById('book_title').value;
+    const author = document.getElementById('book_author').value;
+    const content = document.getElementById('book_content').value;
+
+    const res = await fetch('/api/admin/books', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ title, author, content })
+    });
+
+    const data = await res.json();
+    alert(data.message || "Książka dodana");
+    loadBooks();
+  }
+
+  async function deleteBook(id) {
+    if (!confirm("Na pewno usunąć książkę?")) return;
+    const res = await fetch(`/api/admin/books/${id}`, {
+      method: 'DELETE',
+      headers
+    });
+    const data = await res.json();
+    alert(data.message || "Usunięto książkę");
+    loadBooks();
+  }
+
+  // Użytkownicy
+  async function loadUsers() {
+    const res = await fetch('/api/admin/users', {
+      headers
+    });
+
+    const users = await res.json();
+    const list = document.getElementById('user_list');
+    list.innerHTML = '';
+
+    users.forEach(user => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+                    <strong>${user.username}</strong> – ${user.role}
+                    <button onclick="deleteUser(${user.id})">🗑️ Usuń</button>
+                `;
+      list.appendChild(li);
+    });
+  }
+
+  async function deleteUser(id) {
+    if (!confirm("Usunąć użytkownika?")) return;
+
+    const res = await fetch(`/api/admin/users/${id}`, {
+      method: 'DELETE',
+      headers
+    });
+
+    const data = await res.json();
+    alert(data.message || "Użytkownik usunięty");
+    loadUsers();
+  }
+  async function createUser() {
+    const username = document.getElementById('new_user_username').value.trim();
+    const password = document.getElementById('new_user_password').value;
+    const confirmPassword = document.getElementById('new_user_confirm_password').value;
+    const role = document.getElementById('new_user_role').value;
+
+    if (!username || !password || !confirmPassword) {
+      return alert('Wprowadź wszystkie dane.');
+    }
+
+    if (password !== confirmPassword) {
+      return alert('❌ Hasła nie są takie same!');
+    }
+
+    try {
+      const res = await fetch('/api/admin/users/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token')
+        },
+        body: JSON.stringify({ username, password, role })
+      });
+
+      const data = await res.json();
+      alert(data.message);
+
+      // Czyszczenie formularza po sukcesie
+      document.getElementById('new_user_username').value = '';
+      document.getElementById('new_user_password').value = '';
+      document.getElementById('new_user_confirm_password').value = '';
+      document.getElementById('new_user_role').value = 'user';
+
+      loadUsers(); // odśwież listę użytkowników
+    } catch (err) {
+      console.error(err);
+      alert('❌ Błąd podczas dodawania użytkownika.');
+    }
+  }
+
+
+  window.addEventListener('DOMContentLoaded', () => {
+    checkAdmin();
+    loadBooks();
+    loadUsers();
+  });
+</script>
+</body>
+</html>
