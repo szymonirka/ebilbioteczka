@@ -7,16 +7,23 @@
 <body>
 <h1>Szczegóły książki</h1>
 <div id="book_details"></div>
-<div id="pdf_viewer"></div>
+<div id="favorite_status"></div>
+
 <div id="fav_buttons" style="margin-top: 10px;">
-    <button onclick="addToFavorites()">💖 Dodaj do ulubionych</button>
-    <button onclick="removeFromFavorites()">❌ Usuń z ulubionych</button>
+    <button id="favorite_action" onclick="toggleFavorite()">💖 Dodaj do ulubionych</button>
 </div>
+
+<div id="feedback_message" style="margin-top: 10px; color: green;"></div>
+
+<div id="pdf_viewer" style="margin-top: 20px;"></div>
+
 <a href="index.html">← Powrót do listy</a>
 
 <script>
     let bookId;
+    let isFavorite = false;
     const token = localStorage.getItem('token');
+
     async function loadBookDetails() {
         const params = new URLSearchParams(window.location.search);
         bookId = params.get('id');
@@ -31,64 +38,90 @@
             const book = await res.json();
 
             document.getElementById('book_details').innerHTML = `
-            <h2>${book.title}</h2>
-            <p><strong>Autor:</strong> ${book.author}</p>
-        `;
+                <h2>${book.title}</h2>
+                <p><strong>Autor:</strong> ${book.author}</p>
+            `;
 
-            // jeśli jest PDF i użytkownik zalogowany
-            const token = localStorage.getItem('token');
+            // Jeśli jest PDF i użytkownik zalogowany
             if (token && book.pdf_path) {
                 document.getElementById('pdf_viewer').innerHTML = `
-                <h3>📖 Czytaj książkę:</h3>
-                <iframe src="${book.pdf_path}" width="100%" height="600px"></iframe>
-            `;
+                    <h3>📖 Czytaj książkę:</h3>
+                    <iframe src="${book.pdf_path}" width="100%" height="600px"></iframe>
+                `;
             }
+
+            if (token) {
+                checkIfFavorite(); // sprawdzamy czy książka już w ulubionych
+            }
+
         } catch (err) {
             document.getElementById('book_details').textContent = '❌ Błąd ładowania książki';
         }
     }
 
-    async function addToFavorites() {
-        if (!token) {
-            alert("Musisz być zalogowany, by dodać do ulubionych.");
-            return;
-        }
-
+    async function checkIfFavorite() {
         try {
-            const res = await fetch(`/api/favorites/${bookId}`, {
-                method: 'POST',
+            const res = await fetch('/api/favorites', {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
             });
-            const data = await res.json();
-            alert(data.message || 'Dodano do ulubionych');
+
+            const favorites = await res.json();
+            isFavorite = favorites.some(fav => fav.id == bookId);
+
+            updateFavoriteButton();
         } catch (err) {
-            alert('❌ Błąd dodawania do ulubionych');
+            console.error('Błąd sprawdzania ulubionych:', err);
         }
     }
 
-    async function removeFromFavorites() {
+    function updateFavoriteButton() {
+        const button = document.getElementById('favorite_action');
+        if (button) {
+            button.textContent = isFavorite ? '❌ Usuń z ulubionych' : '💖 Dodaj do ulubionych';
+        }
+    }
+
+    async function toggleFavorite() {
         if (!token) {
-            alert("Musisz być zalogowany, by usunąć z ulubionych.");
+            showFeedback('Musisz być zalogowany!', true);
             return;
         }
 
         try {
+            const method = isFavorite ? 'DELETE' : 'POST';
             const res = await fetch(`/api/favorites/${bookId}`, {
-                method: 'DELETE',
+                method: method,
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
             });
+
             const data = await res.json();
-            alert(data.message || 'Usunięto z ulubionych');
+            showFeedback(data.message || (isFavorite ? 'Usunięto z ulubionych' : 'Dodano do ulubionych'));
+
+            isFavorite = !isFavorite;
+            updateFavoriteButton();
+
         } catch (err) {
-            alert('❌ Błąd usuwania z ulubionych');
+            showFeedback('❌ Błąd operacji na ulubionych.', true);
+        }
+    }
+
+    function showFeedback(message, isError = false) {
+        const feedback = document.getElementById('feedback_message');
+        if (feedback) {
+            feedback.style.color = isError ? 'red' : 'green';
+            feedback.textContent = message;
+            setTimeout(() => {
+                feedback.textContent = '';
+            }, 3000);
         }
     }
 
     window.addEventListener('DOMContentLoaded', loadBookDetails);
 </script>
+
 </body>
 </html>

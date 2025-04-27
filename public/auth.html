@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Logowanie i Rejestracja</title>
+  <style>
+    .hidden { display: none; }
+    .tab { cursor: pointer; padding: 10px; margin: 5px; display: inline-block; background: #ddd; }
+    .active { background: #aaa; }
+    #feedback { margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+<h1>📚 eBiblioteczka – Logowanie i Rejestracja</h1>
+
+<div>
+  <div id="tabs">
+    <div id="tab-login" class="tab active" onclick="showTab('login')">🔐 Logowanie</div>
+    <div id="tab-register" class="tab" onclick="showTab('register')">📝 Rejestracja</div>
+  </div>
+
+  <div id="login-form">
+    <h2>🔐 Zaloguj się</h2>
+    <input type="text" id="login_username" placeholder="Nazwa użytkownika"><br>
+    <input type="password" id="login_password" placeholder="Hasło"><br>
+    <button onclick="login()">Zaloguj się</button>
+  </div>
+
+  <div id="register-form" class="hidden">
+    <h2>📝 Zarejestruj się</h2>
+    <input type="text" id="register_username" placeholder="Nazwa użytkownika"><br>
+    <input type="password" id="register_password" placeholder="Hasło"><br>
+    <input type="password" id="register_confirm" placeholder="Powtórz hasło"><br>
+    <button onclick="register()">Zarejestruj się</button>
+  </div>
+
+  <div id="feedback"></div>
+</div>
+
+<script>
+  // Automatyczne przekierowanie jeżeli zalogowany
+  const token = localStorage.getItem('token');
+  if (token) {
+    window.location.href = "index.html";
+  }
+
+  function showTab(tab) {
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const tabLogin = document.getElementById('tab-login');
+    const tabRegister = document.getElementById('tab-register');
+
+    if (tab === 'login') {
+      loginForm.classList.remove('hidden');
+      registerForm.classList.add('hidden');
+      tabLogin.classList.add('active');
+      tabRegister.classList.remove('active');
+    } else {
+      loginForm.classList.add('hidden');
+      registerForm.classList.remove('hidden');
+      tabLogin.classList.remove('active');
+      tabRegister.classList.add('active');
+    }
+  }
+
+  async function login() {
+    const username = document.getElementById('login_username').value;
+    const password = document.getElementById('login_password').value;
+
+    if (!username || !password) {
+      showFeedback('❌ Wprowadź wszystkie dane.', true);
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await res.json();
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+        window.location.href = "index.html";
+      } else {
+        showFeedback(data.message || '❌ Błędne dane logowania', true);
+      }
+    } catch (err) {
+      showFeedback('❌ Błąd logowania.', true);
+    }
+  }
+
+  async function register() {
+    const username = document.getElementById('register_username').value;
+    const password = document.getElementById('register_password').value;
+    const confirm = document.getElementById('register_confirm').value;
+
+    if (!username || !password || !confirm) {
+      showFeedback('❌ Wprowadź wszystkie dane.', true);
+      return;
+    }
+
+    if (password !== confirm) {
+      showFeedback('❌ Hasła nie są takie same!', true);
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        showFeedback('✅ Rejestracja zakończona. Możesz się zalogować.', false);
+        showTab('login');
+      } else {
+        showFeedback(data.message || '❌ Błąd rejestracji.', true);
+      }
+    } catch (err) {
+      showFeedback('❌ Błąd rejestracji.', true);
+    }
+  }
+
+  function showFeedback(message, isError = false) {
+    const feedback = document.getElementById('feedback');
+    feedback.style.color = isError ? 'red' : 'green';
+    feedback.textContent = message;
+    setTimeout(() => feedback.textContent = '', 4000);
+  }
+</script>
+
+</body>
+</html>
