@@ -7,6 +7,7 @@
 <body>
 <h1>Szczegóły książki</h1>
 <div id="book_details"></div>
+<div id="pdf_viewer"></div>
 <div id="fav_buttons" style="margin-top: 10px;">
     <button onclick="addToFavorites()">💖 Dodaj do ulubionych</button>
     <button onclick="removeFromFavorites()">❌ Usuń z ulubionych</button>
@@ -30,11 +31,18 @@
             const book = await res.json();
 
             document.getElementById('book_details').innerHTML = `
-                    <h2>${book.title}</h2>
-                    <p><strong>Autor:</strong> ${book.author}</p>
-                    <p><strong>ID:</strong> ${book.id}</p>
-                    <!-- Możesz dodać więcej szczegółów, np. treść -->
-                `;
+            <h2>${book.title}</h2>
+            <p><strong>Autor:</strong> ${book.author}</p>
+        `;
+
+            // jeśli jest PDF i użytkownik zalogowany
+            const token = localStorage.getItem('token');
+            if (token && book.pdf_path) {
+                document.getElementById('pdf_viewer').innerHTML = `
+                <h3>📖 Czytaj książkę:</h3>
+                <iframe src="${book.pdf_path}" width="100%" height="600px"></iframe>
+            `;
+            }
         } catch (err) {
             document.getElementById('book_details').textContent = '❌ Błąd ładowania książki';
         }

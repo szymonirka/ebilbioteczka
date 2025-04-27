@@ -10,11 +10,17 @@
 <div id="admin_status"></div>
 
 <section>
-  <h2>📚 Zarządzanie książkami</h2>
-  <input type="text" id="book_title" placeholder="Tytuł">
-  <input type="text" id="book_author" placeholder="Autor">
-  <textarea id="book_content" placeholder="Treść książki"></textarea>
-  <button onclick="addBook()">Dodaj książkę</button>
+  <h2>📚 Dodaj nową książkę</h2>
+
+  <form id="addBookForm" enctype="multipart/form-data">
+    <input type="text" name="title" id="book_title" placeholder="Tytuł" required><br>
+    <input type="text" name="author" id="book_author" placeholder="Autor" required><br>
+    <textarea name="content" id="book_content" placeholder="Treść książki (opcjonalne)"></textarea><br>
+    <input type="file" name="pdf" id="book_pdf" accept="application/pdf"><br><br>
+
+    <button type="submit">➕ Dodaj książkę</button>
+  </form>
+
 
   <h3>📖 Istniejące książki:</h3>
   <ul id="book_list"></ul>
@@ -66,7 +72,12 @@
 
   // Książki
   async function loadBooks() {
-    const res = await fetch('/api/books');
+    const res = await fetch('/api/admin/books', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    });
     const books = await res.json();
     const list = document.getElementById('book_list');
     list.innerHTML = '';
@@ -74,39 +85,130 @@
     books.forEach(book => {
       const li = document.createElement('li');
       li.innerHTML = `
-                    <strong>${book.title}</strong> – ${book.author}
-                    <button onclick="deleteBook(${book.id})">🗑️ Usuń</button>
-                `;
+            <strong>${book.title}</strong> – ${book.author}
+            <button onclick="deleteBook(${book.id})">🗑️ Usuń</button>
+            <button onclick="showEditForm(${book.id}, '${book.title}', '${book.author}')">✏️ Edytuj</button>
+        `;
       list.appendChild(li);
     });
   }
 
+
+  //formularz edycji ksiazki
+
+  function showEditForm(id, title, author) {
+    const editSection = document.createElement('div');
+    editSection.id = 'editSection_' + id;
+    editSection.innerHTML = `
+        <h3>✏️ Edytuj książkę (ID: ${id})</h3>
+        <input type="text" id="edit_title_${id}" value="${title}" placeholder="Tytuł"><br>
+        <input type="text" id="edit_author_${id}" value="${author}" placeholder="Autor"><br>
+        <input type="file" id="edit_pdf_${id}" accept="application/pdf"><br><br>
+        <button onclick="submitEdit(${id})">💾 Zapisz zmiany</button>
+        <button onclick="cancelEdit(${id})">❌ Anuluj</button>
+        <hr>
+    `;
+
+    // Wstawiamy formularz pod listą książek
+    const list = document.getElementById('book_list');
+    list.parentNode.insertBefore(editSection, list.nextSibling);
+  }
+// wysylanie zmian po edycji ksiazki
+
+  async function submitEdit(id) {
+    const title = document.getElementById(`edit_title_${id}`).value;
+    const author = document.getElementById(`edit_author_${id}`).value;
+    const pdfFile = document.getElementById(`edit_pdf_${id}`).files[0];
+
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('author', author);
+    if (pdfFile) {
+      formData.append('pdf', pdfFile);
+    }
+
+    try {
+      const res = await fetch(`/api/admin/books/${id}`, {
+        method: 'PUT', // edytujemy!
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('token')
+        },
+        body: formData
+      });
+
+      const data = await res.json();
+      alert(data.message || "✅ Zmiany zapisane!");
+      loadBooks();
+      document.getElementById(`editSection_${id}`).remove(); // usuń formularz edycji
+    } catch (err) {
+      console.error(err);
+      alert('❌ Błąd podczas edycji książki.');
+    }
+  }
+ // anulowanie edycji ksiazki
+  function cancelEdit(id) {
+    const editForm = document.getElementById(`editSection_${id}`);
+    if (editForm) editForm.remove();
+  }
+
+// dodanie ksiazki
   async function addBook() {
     const title = document.getElementById('book_title').value;
     const author = document.getElementById('book_author').value;
     const content = document.getElementById('book_content').value;
+    const pdfFile = document.getElementById('book_pdf').files[0]; // <-- plik pdf
 
-    const res = await fetch('/api/admin/books', {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({ title, author, content })
-    });
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('author', author);
+    formData.append('content', content);
+    if (pdfFile) {
+      formData.append('pdf', pdfFile);
+    }
 
-    const data = await res.json();
-    alert(data.message || "Książka dodana");
-    loadBooks();
+    try {
+      const res = await fetch('/api/admin/books/upload', { // <<< ważne: /upload
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('token')
+          // NIE ustawiamy Content-Type ręcznie! (fetch sam to zrobi przy FormData)
+        },
+        body: formData
+      });
+
+      const data = await res.json();
+      alert(data.message || "✅ Książka dodana");
+
+      document.getElementById('addBookForm').reset(); // czyścimy formularz
+      loadBooks(); // odświeżamy listę książek
+
+    } catch (err) {
+      console.error(err);
+      alert('❌ Błąd podczas dodawania książki.');
+    }
   }
-
+//usuniecie ksiazki
   async function deleteBook(id) {
     if (!confirm("Na pewno usunąć książkę?")) return;
-    const res = await fetch(`/api/admin/books/${id}`, {
-      method: 'DELETE',
-      headers
-    });
-    const data = await res.json();
-    alert(data.message || "Usunięto książkę");
-    loadBooks();
+
+    try {
+      const res = await fetch(`/api/admin/books/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+      });
+
+      const data = await res.json();
+      alert(data.message || "✅ Książka usunięta");
+      loadBooks(); // odśwież listę książek
+    } catch (err) {
+      console.error(err);
+      alert('❌ Błąd podczas usuwania książki.');
+    }
   }
+
+
 
   // Użytkownicy
   async function loadUsers() {
@@ -180,6 +282,10 @@
     }
   }
 
+  document.getElementById('addBookForm').addEventListener('submit', async (e) => {
+    e.preventDefault(); // zatrzymaj odświeżanie strony
+    await addBook();
+  });
 
   window.addEventListener('DOMContentLoaded', () => {
     checkAdmin();

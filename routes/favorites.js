@@ -10,6 +10,8 @@ router.post('/:bookId', auth, async (req,res) => {
     const userId = req.user.id;
     const bookId = req.params.bookId;
 
+    console.log(" Próba dodania ulubionej książki:", { userId, bookId });
+
     try {
         await pool.query('INSERT IGNORE INTO favorites (user_id, book_id) VALUES (?, ?)', [userId, bookId]);
         res.json({ message: 'Dodano do ulubionych' });
