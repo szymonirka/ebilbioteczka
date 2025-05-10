@@ -3,21 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Szczegóły książki</title>
+    <link rel="stylesheet" href="css/book_style.css">
 </head>
 <body>
-<h1>Szczegóły książki</h1>
-<div id="book_details"></div>
-<div id="favorite_status"></div>
+<div id="header_book">
 
-<div id="fav_buttons" style="margin-top: 10px;">
-    <button id="favorite_action" onclick="toggleFavorite()">💖 Dodaj do ulubionych</button>
+
+    <div id="left_header">
+        <h1>Szczegóły książki:</h1>
+        <div id="book_details"></div>
+        <div id="favorite_status"></div>
+    </div>
+
+
+    <div id="fav_buttons" >
+        <button id="favorite_action" onclick="toggleFavorite()">💖 Dodaj do ulubionych</button>
+        <br>
+        <a href="index.html">← Powrót do listy</a>
+    </div>
+
 </div>
 
-<div id="feedback_message" style="margin-top: 10px; color: green;"></div>
 
-<div id="pdf_viewer" style="margin-top: 20px;"></div>
+<!-- <div id="feedback_message" style="margin-top: 10px; color: green;"></div> -->
 
-<a href="index.html">← Powrót do listy</a>
+<div id="pdf_viewer"></div>
+
+
 
 <script>
     let bookId;
@@ -40,6 +52,8 @@
             document.getElementById('book_details').innerHTML = `
                 <h2>${book.title}</h2>
                 <p><strong>Autor:</strong> ${book.author}</p>
+
+
             `;
 
             // Jeśli jest PDF i użytkownik zalogowany

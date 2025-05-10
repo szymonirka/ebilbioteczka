@@ -1,0 +1,200 @@
+/* ======================== */
+/* === ADMIN PANEL STYLES === */
+/* ======================== */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+    background-color: #f5f5f5;
+    color: #333;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1, h2, h3 {
+    color: #5D4037;
+}
+
+/* Nagłówek statusu */
+#admin_status {
+    padding: 10px;
+    background-color: #D7CCC8;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+/* Sekcje zarządzania */
+section {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-color: #D7CCC8;
+    margin: 30px 0;
+}
+
+/* Formularze */
+form, #admin_add_user {
+    background-color: #FFF8E1;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="password"],
+select {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #D7CCC8;
+    border-radius: 4px;
+}
+
+#addBookForm {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+#book_title {
+    grid-area: title;
+}
+
+#book_author {
+    grid-area: author;
+}
+
+#book_content {
+    grid-area: textarea;
+    height: 100%; /* Wypełnia całą dostępną wysokość */
+    min-height: 120px; /* Minimalna wysokość */
+    resize: vertical; /* Pozwala tylko na pionowy resize */
+}
+
+#book_pdf {
+    grid-area: pdf;
+    width: 100%;
+}
+
+#addBookForm button {
+    grid-area: button;
+    justify-self: start; /* Przycisk wyrównany do lewej */
+}
+
+#delete_button{
+
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+    #addBookForm {
+        grid-template-areas:
+      "title"
+      "author"
+      "textarea"
+      "pdf"
+      "button";
+        grid-template-columns: 1fr;
+    }
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+input[type="file"] {
+    margin-bottom: 15px;
+}
+
+/* Listy */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+#book_list li, #user_list li {
+    padding: 15px;
+    background-color: white;
+    border: 1px solid #D7CCC8;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Przyciski */
+#edit_button {
+    padding: 8px 15px;
+    background-color: #5D4037;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.2s;
+}
+
+#delete_button {
+    padding: 8px 15px;
+    background-color: #5D4037;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.2s;
+    border: solid;
+    border: outset #f33;
+}
+
+button:hover {
+    background-color: #3E2723;
+}
+
+/* Formularz edycji */
+[id^="editSection_"] {
+    background-color: #FFF8E1;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 5px;
+}
+
+/* Link powrotu */
+a {
+    color: #5D4037;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: #D7CCC8;
+    border-radius: 4px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+    #book_list li, #user_list li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    button {
+        margin: 5px 0;
+        width: 100%;
+    }
+}

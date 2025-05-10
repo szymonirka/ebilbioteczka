@@ -4,26 +4,42 @@
     <meta charset="UTF-8">
     <title>eBiblioteczka</title>
     <script src="script.js"></script>
+    <link rel="stylesheet" href="css/index_style.css">
 </head>
 <body>
-<h1>eBiblioteczka </h1>
-<p><a href="profile.html">Profile użytkownika</a></p>
-<h2>Status logowania</h2>
-<div id="user_status" style="margin: 10px 0; font-weight: bold;"></div>
-<div id="logout_button" style="margin-bottom: 20px;"></div>
-<div id="admin_panel_link" style="margin-top: 10px;"></div>
+
+<div id="header_index">
+    <div id="left_header">
+        <h1>eBiblioteczka </h1>
+        <p style="font-weight: bold; font-size: larger"><a href="profile.html">Profile użytkownika</a></p>
+    </div>
+    <div id="right_header">
+        <div id="admin_panel_link" ></div>
+        <div id="user_status"></div>
+        <div id="logout_button" ></div>
+        <div id="user_actions"></div>
+    </div>
 
 
-<div id="user_actions" style="margin-top: 10px;"></div>
-<h2>📚 Lista książek</h2>
-<input type="text" id="filter_title" placeholder="Szukaj po tytule">
-<input type="text" id="filter_author" placeholder="Szukaj po autorze">
-<button onclick="loadBooks()">Szukaj</button>
-
-<ul id="book_list"></ul>
 
 
-<pre id="output"></pre>
+</div>
+
+
+
+<div id="list_index">
+    <h2>📚 Lista książek</h2>
+    <input type="text" id="filter_title" placeholder="Szukaj po tytule">
+    <input type="text" id="filter_author" placeholder="Szukaj po autorze">
+    <button onclick="loadBooks()">Szukaj</button>
+</div>
+<div id="header_book_list">
+    <ul id="book_list"></ul>
+
+    <pre id="output"></pre>
+</div>
+
+
 
 
 </body>

@@ -1,0 +1,96 @@
+/* ======================== */
+/* === AUTH PAGE STYLES === */
+/* ======================== */
+
+body {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+h1 {
+    color: #6c584c;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-family: 'Playfair Display', serif;
+}
+
+/* Zakładki */
+#tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.tab {
+    padding: 0.8rem 2rem;
+    background-color: #f8f9fa;
+    color: #6c584c;
+    border: 1px solid #d4a373;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tab.active {
+    background-color: #6c584c;
+    color: white;
+}
+
+.tab:first-child {
+    border-radius: 4px 0 0 4px;
+}
+
+.tab:last-child {
+    border-radius: 0 4px 4px 0;
+}
+
+/* Formularze */
+#login-form,
+#register-form {
+    background-color: #f8f9fa;
+    padding: 2rem;
+    border-radius: 4px;
+    border: 1px solid #d4a373;
+}
+
+#login-form h2,
+#register-form h2 {
+    color: #6c584c;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #d4a373;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+button {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #6c584c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+button:hover {
+    background-color: #5a4a3f;
+}
+
+/* Komunikaty */
+#feedback {
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 4px;
+    text-align: center;
+}

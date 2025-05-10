@@ -3,24 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Moje konto</title>
+    <link rel="stylesheet" href="css/profile_style.css">
 </head>
 <body>
-<h1>👤 Panel użytkownika</h1>
 
-<h2>💖 Moje ulubione książki</h2>
-<ul id="favorites_list"></ul>
+<div id="header_profile">
+    <h1>👤 Panel użytkownika</h1>
 
-<h2> Zmień hasło </h2>
-<input type="password" id="old_password" placeholder="Stare hasło">
-<input type="password" id = "new_password" placeholder="Nowe hasło">
-<button onclick="changePassword()">Zmień hasło</button>
+    <h2> Zmień hasło </h2>
+    <input type="password" id="old_password" placeholder="Stare hasło">
+    <input type="password" id = "new_password" placeholder="Nowe hasło">
+    <button onclick="changePassword()">Zmień hasło</button>
 
-<h2>✏️ Zmień nazwę użytkownika</h2>
-<input type="text" id="new_username" placeholder="Nowa nazwa użytkownika">
-<button onclick="changeUsername()">Zmień nazwę</button>
-<h2>❌ Usuń konto</h2>
+    <h2>✏️ Zmień nazwę użytkownika</h2>
+    <input type="text" id="new_username" placeholder="Nowa nazwa użytkownika">
+    <button onclick="changeUsername()">Zmień nazwę</button>
+    <h2>❌ Usuń konto</h2>
 
-<button onclick="deleteAccount()"> Usuń moje konto</button>
+    <button onclick="deleteAccount()"> Usuń moje konto</button>
+</div>
+
+<div id="favourite_books">
+
+    <h2>💖 Moje ulubione książki</h2>
+    <ul id="favorites_list"></ul>
+
+</div>
+
+
+
+
+
 
 <p><a href="index.html">← Powrót</a></p>
 
@@ -48,6 +61,7 @@
                 const li = document.createElement('li');
                 li.innerHTML = `
                         <a href="book.html?id=${book.id}">${book.title}</a> – ${book.author}
+
                         <button onclick="removeFavorite(${book.id})">❌ Usuń</button>
                     `;
                 list.appendChild(li);

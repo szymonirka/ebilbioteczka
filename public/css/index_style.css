@@ -1,0 +1,142 @@
+/*index.html*/
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    line-height: 1.5;
+}
+
+
+
+#header_index h1 {
+    margin: 0;
+    color: #6c584c;
+}
+
+#header_index > * {
+    margin: 0;
+}
+
+#header_index {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #d4a373;
+    margin-bottom: 20px;
+}
+
+#left_header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+#right_header {
+    display: flex;
+    align-items: center; /* Kluczowa linijka - wyrównanie środków */
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* Elementy wewnątrz prawego nagłówka */
+#right_header > div {
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+}
+
+/* Responsywność dla mniejszych ekranów */
+@media (max-width: 768px) {
+    #header_index {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #right_header {
+        align-items: stretch;
+    }
+
+    #right_header > div {
+        text-align: center;
+    }
+}
+#list_index {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#list_index h2 {
+    margin: 0;
+    color: #6c584c;
+}
+
+#filter_title,
+#filter_author {
+    padding: 8px;
+    border: 1px solid #d4a373;
+    border-radius: 4px;
+}
+
+
+#book_list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+#book_list li {
+    position: relative; /* Dodane dla pozycjonowania przycisku */
+    padding: 15px;
+    border: 1px solid #d4a373;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    min-height: 80px; /* Zapewnia miejsce na przycisk */
+}
+
+#book_list li a {
+    color: #6c584c;
+    display: block;
+    margin-bottom: 30px; /* Miejsce na przycisk */
+}
+
+#book_list li button {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    padding: 8px 15px;
+    margin: 0;
+}
+
+button {
+    padding: 8px 15px;
+    background-color: #6c584c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+}
+
+button:hover {
+    background-color: #5a4a3f;
+
+
+}
+
+a {
+    color: #6c584c;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}

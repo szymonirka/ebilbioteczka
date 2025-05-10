@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
+  <link rel="stylesheet" href="css/admin_style.css">
   <meta charset="UTF-8">
   <title>Panel Administratora</title>
 </head>
@@ -9,12 +10,13 @@
 
 <div id="admin_status"></div>
 
-<section>
+<section id="admin_books_management">
   <h2>📚 Dodaj nową książkę</h2>
 
   <form id="addBookForm" enctype="multipart/form-data">
     <input type="text" name="title" id="book_title" placeholder="Tytuł" required><br>
     <input type="text" name="author" id="book_author" placeholder="Autor" required><br>
+    <!-- Write your comments here -->
     <textarea name="content" id="book_content" placeholder="Treść książki (opcjonalne)"></textarea><br>
     <input type="file" name="pdf" id="book_pdf" accept="application/pdf"><br><br>
 
@@ -28,20 +30,23 @@
 
 <hr>
 
-<section>
+<section id="admin_user_management">
   <h2>👥 Zarządzanie isniejącymi użytkownikami</h2>
   <ul id="user_list"></ul>
 </section>
 
-<h2>➕ Dodaj użytkownika</h2>
-<input type="text" id="new_user_username" placeholder="Nazwa użytkownika">
-<input type="password" id="new_user_password" placeholder="Hasło">
-<input type="password" id="new_user_confirm_password" placeholder="Potwierdź hasło">
-<select id="new_user_role">
-  <option value="user">Użytkownik</option>
-  <option value="admin">Administrator</option>
-</select>
-<button onclick="createUser()">Dodaj użytkownika</button>
+<div id="admin_add_user">
+  <h2>➕ Dodaj użytkownika</h2>
+  <input type="text" id="new_user_username" placeholder="Nazwa użytkownika">
+  <input type="password" id="new_user_password" placeholder="Hasło">
+  <input type="password" id="new_user_confirm_password" placeholder="Potwierdź hasło">
+  <select id="new_user_role">
+    <option value="user">Użytkownik</option>
+    <option value="admin">Administrator</option>
+  </select>
+  <button onclick="createUser()">Dodaj użytkownika</button>
+</div>
+
 
 
 <p><a href="index.html">← Powrót do strony głównej</a></p>
@@ -86,8 +91,8 @@
       const li = document.createElement('li');
       li.innerHTML = `
             <strong>${book.title}</strong> – ${book.author}
-            <button onclick="deleteBook(${book.id})">🗑️ Usuń</button>
-            <button onclick="showEditForm(${book.id}, '${book.title}', '${book.author}')">✏️ Edytuj</button>
+            <button id="delete_button" onclick="deleteBook(${book.id})">🗑️ Usuń</button>
+            <button id="edit_button" onclick="showEditForm(${book.id}, '${book.title}', '${book.author}')">✏️ Edytuj</button>
         `;
       list.appendChild(li);
     });
@@ -113,7 +118,7 @@
     const list = document.getElementById('book_list');
     list.parentNode.insertBefore(editSection, list.nextSibling);
   }
-// wysylanie zmian po edycji ksiazki
+  // wysylanie zmian po edycji ksiazki
 
   async function submitEdit(id) {
     const title = document.getElementById(`edit_title_${id}`).value;
@@ -145,13 +150,13 @@
       alert('❌ Błąd podczas edycji książki.');
     }
   }
- // anulowanie edycji ksiazki
+  // anulowanie edycji ksiazki
   function cancelEdit(id) {
     const editForm = document.getElementById(`editSection_${id}`);
     if (editForm) editForm.remove();
   }
 
-// dodanie ksiazki
+  // dodanie ksiazki
   async function addBook() {
     const title = document.getElementById('book_title').value;
     const author = document.getElementById('book_author').value;
@@ -187,7 +192,7 @@
       alert('❌ Błąd podczas dodawania książki.');
     }
   }
-//usuniecie ksiazki
+  //usuniecie ksiazki
   async function deleteBook(id) {
     if (!confirm("Na pewno usunąć książkę?")) return;
 
