@@ -7,7 +7,7 @@ function authMiddleware(req,res,next){
 
     try {
         const user = jwt.verify(token, 'tajny_klucz');
-        req.user = user; // przekazujemy usera dalej
+        req.user = user;
         next();
     } catch (err) {
         return res.status(403).json({ message: "Nieprawidłowy token" });

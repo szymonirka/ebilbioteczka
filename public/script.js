@@ -26,7 +26,7 @@ async function loadBooks() {
             list.appendChild(li);
         });
     } catch (err) {
-        document.getElementById('output').textContent = '❌ Błąd ładowania książek';
+        document.getElementById('output').textContent = 'Błąd ładowania książek';
     }
 }
 
@@ -37,7 +37,7 @@ async function showDetails(bookId) {
 
         window.location.href = `book.html?id=${bookId}`;
     } catch (err) {
-        alert('❌ Nie udało się pobrać szczegółów książki');
+        alert('Nie udało się pobrać szczegółów książki');
     }
 }
 
@@ -49,11 +49,11 @@ function checkLoginStatus() {
     const userActionsDiv = document.getElementById('user_actions'); // nowy div
 
     if (!token) {
-        statusDiv.textContent = '🔒 Nie jesteś zalogowany';
+        statusDiv.textContent = 'Nie jesteś zalogowany';
         logoutDiv.innerHTML = '';
         adminLinkDiv.innerHTML = '';
         userActionsDiv.innerHTML = `
-            <button onclick="goToLogin()">🔐 Zaloguj się</button>
+            <button onclick="goToLogin()">Zaloguj się</button>
         `;
         return;
     }
@@ -63,30 +63,30 @@ function checkLoginStatus() {
         const username = payload.username;
         const role = payload.role;
 
-        statusDiv.textContent = `👋 Zalogowany jako: ${username}`;
-        logoutDiv.innerHTML = `<button onclick="logout()">🚪 Wyloguj się</button>`;
+        statusDiv.textContent = `Zalogowany jako: ${username}`;
+        logoutDiv.innerHTML = `<button onclick="logout()">Wyloguj się</button>`;
 
         if (role === 'admin') {
-            adminLinkDiv.innerHTML = `<a href="admin.html">⚙️ Panel Administratora</a>`;
+            adminLinkDiv.innerHTML = `<a href="admin.html">Panel Administratora</a>`;
         } else {
             adminLinkDiv.innerHTML = '';
         }
 
-        userActionsDiv.innerHTML = ''; // Jeśli zalogowany - brak potrzeby logowania
+        userActionsDiv.innerHTML = '';
 
     } catch (err) {
         console.error('Błąd dekodowania tokena:', err);
-        statusDiv.textContent = '❌ Błąd odczytu loginu';
+        statusDiv.textContent = 'Błąd odczytu loginu';
         logoutDiv.innerHTML = '';
         adminLinkDiv.innerHTML = '';
         userActionsDiv.innerHTML = `
-            <button onclick="goToLogin()">🔐 Zaloguj się</button>
+            <button onclick="goToLogin()">Zaloguj się</button>
         `;
     }
 }
 
 function goToLogin() {
-    window.location.href = "auth.html"; // przekierowanie do strony logowania
+    window.location.href = "auth.html";
 }
 
 function logout() {

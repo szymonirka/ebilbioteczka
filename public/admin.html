@@ -6,37 +6,37 @@
   <title>Panel Administratora</title>
 </head>
 <body>
-<h1>👑 Panel Administratora</h1>
+<h1>Panel Administratora</h1>
 
 <div id="admin_status"></div>
 
 <section id="admin_books_management">
-  <h2>📚 Dodaj nową książkę</h2>
+  <h2> Dodaj nową książkę</h2>
 
   <form id="addBookForm" enctype="multipart/form-data">
     <input type="text" name="title" id="book_title" placeholder="Tytuł" required><br>
     <input type="text" name="author" id="book_author" placeholder="Autor" required><br>
-    <!-- Write your comments here -->
+
     <textarea name="content" id="book_content" placeholder="Treść książki (opcjonalne)"></textarea><br>
     <input type="file" name="pdf" id="book_pdf" accept="application/pdf"><br><br>
 
-    <button type="submit">➕ Dodaj książkę</button>
+    <button type="submit">Dodaj książkę</button>
   </form>
 
 
-  <h3>📖 Istniejące książki:</h3>
+  <h3>Istniejące książki:</h3>
   <ul id="book_list"></ul>
 </section>
 
 <hr>
 
 <section id="admin_user_management">
-  <h2>👥 Zarządzanie isniejącymi użytkownikami</h2>
+  <h2>Zarządzanie isniejącymi użytkownikami</h2>
   <ul id="user_list"></ul>
 </section>
 
 <div id="admin_add_user">
-  <h2>➕ Dodaj użytkownika</h2>
+  <h2>Dodaj użytkownika</h2>
   <input type="text" id="new_user_username" placeholder="Nazwa użytkownika">
   <input type="password" id="new_user_password" placeholder="Hasło">
   <input type="password" id="new_user_confirm_password" placeholder="Potwierdź hasło">
@@ -105,12 +105,12 @@
     const editSection = document.createElement('div');
     editSection.id = 'editSection_' + id;
     editSection.innerHTML = `
-        <h3>✏️ Edytuj książkę (ID: ${id})</h3>
+        <h3>Edytuj książkę (ID: ${id})</h3>
         <input type="text" id="edit_title_${id}" value="${title}" placeholder="Tytuł"><br>
         <input type="text" id="edit_author_${id}" value="${author}" placeholder="Autor"><br>
         <input type="file" id="edit_pdf_${id}" accept="application/pdf"><br><br>
-        <button onclick="submitEdit(${id})">💾 Zapisz zmiany</button>
-        <button onclick="cancelEdit(${id})">❌ Anuluj</button>
+        <button onclick="submitEdit(${id})">Zapisz zmiany</button>
+        <button onclick="cancelEdit(${id})">Anuluj</button>
         <hr>
     `;
 
@@ -142,12 +142,12 @@
       });
 
       const data = await res.json();
-      alert(data.message || "✅ Zmiany zapisane!");
+      alert(data.message || "Zmiany zapisane!");
       loadBooks();
       document.getElementById(`editSection_${id}`).remove(); // usuń formularz edycji
     } catch (err) {
       console.error(err);
-      alert('❌ Błąd podczas edycji książki.');
+      alert('Błąd podczas edycji książki.');
     }
   }
   // anulowanie edycji ksiazki
@@ -182,14 +182,14 @@
       });
 
       const data = await res.json();
-      alert(data.message || "✅ Książka dodana");
+      alert(data.message || "Książka dodana");
 
       document.getElementById('addBookForm').reset(); // czyścimy formularz
       loadBooks(); // odświeżamy listę książek
 
     } catch (err) {
       console.error(err);
-      alert('❌ Błąd podczas dodawania książki.');
+      alert('Błąd podczas dodawania książki.');
     }
   }
   //usuniecie ksiazki
@@ -205,11 +205,11 @@
       });
 
       const data = await res.json();
-      alert(data.message || "✅ Książka usunięta");
+      alert(data.message || "Książka usunięta");
       loadBooks(); // odśwież listę książek
     } catch (err) {
       console.error(err);
-      alert('❌ Błąd podczas usuwania książki.');
+      alert('Błąd podczas usuwania książki.');
     }
   }
 
@@ -258,7 +258,7 @@
     }
 
     if (password !== confirmPassword) {
-      return alert('❌ Hasła nie są takie same!');
+      return alert('Hasła nie są takie same!');
     }
 
     try {
@@ -283,7 +283,7 @@
       loadUsers(); // odśwież listę użytkowników
     } catch (err) {
       console.error(err);
-      alert('❌ Błąd podczas dodawania użytkownika.');
+      alert('Błąd podczas dodawania użytkownika.');
     }
   }
 

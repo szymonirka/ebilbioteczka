@@ -51,7 +51,7 @@ router.post('/create', auth, isAdmin, async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
         await pool.query('INSERT INTO users (username, password, role) VALUES (?, ?, ?)', [username, hashedPassword, role]);
-        res.json({ message: "✅ Użytkownik został dodany." });
+        res.json({ message: "Użytkownik został dodany." });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Błąd podczas tworzenia użytkownika." });

@@ -17,7 +17,7 @@
 
 
     <div id="fav_buttons" >
-        <button id="favorite_action" onclick="toggleFavorite()">💖 Dodaj do ulubionych</button>
+        <button id="favorite_action" onclick="toggleFavorite()">Dodaj do ulubionych</button>
         <br>
         <a href="index.html">← Powrót do listy</a>
     </div>
@@ -57,10 +57,10 @@
 
             `;
 
-            // Jeśli jest PDF i użytkownik zalogowany
+            //  jest PDF i uzytkownik zalogowany
             if (token && book.pdf_path) {
                 document.getElementById('pdf_viewer').innerHTML = `
-                    <h3>📖 Czytaj książkę:</h3>
+                    <h3>Czytaj książkę:</h3>
                     <iframe src="${book.pdf_path}" width="100%" height="600px"></iframe>
                 `;
             }
@@ -70,7 +70,7 @@
             }
 
         } catch (err) {
-            document.getElementById('book_details').textContent = '❌ Błąd ładowania książki';
+            document.getElementById('book_details').textContent = 'Błąd ładowania książki';
         }
     }
 
@@ -94,7 +94,7 @@
     function updateFavoriteButton() {
         const button = document.getElementById('favorite_action');
         if (button) {
-            button.textContent = isFavorite ? '❌ Usuń z ulubionych' : '💖 Dodaj do ulubionych';
+            button.textContent = isFavorite ? 'Usuń z ulubionych' : ' Dodaj do ulubionych';
         }
     }
 
@@ -120,7 +120,7 @@
             updateFavoriteButton();
 
         } catch (err) {
-            showFeedback('❌ Błąd operacji na ulubionych.', true);
+            showFeedback('Błąd operacji na ulubionych.', true);
         }
     }
 

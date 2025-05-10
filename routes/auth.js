@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const pool = require('../db');
 const router = express.Router();
 
-// Rejestracja
+// rejestracja
 router.post('/register', async (req, res) => {
     const { username, password } = req.body;
 
@@ -24,7 +24,7 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Logowanie
+// logowanie
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
 

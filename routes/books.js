@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db');
 
-// Pobierz wszystkie książki (z opcjonalnym filtrowaniem)
+// pobieranie wszystkich kasiazk
 router.get('/', async (req, res) => {
     const { title, author } = req.query;
     let sql = 'SELECT * FROM books WHERE 1=1';
@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Szczegóły książki
+// szczegoly danej ksiazki
 router.get('/:id', async (req, res) => {
     const bookId = req.params.id;
 
