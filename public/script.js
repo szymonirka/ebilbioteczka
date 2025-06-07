@@ -7,7 +7,6 @@ async function loadBooks() {
 
     if (title) params.push(`title=${encodeURIComponent(title)}`);
     if (author) params.push(`author=${encodeURIComponent(author)}`);
-
     if (params.length > 0) {
         url += `?${params.join('&')}`;
     }
@@ -16,19 +15,47 @@ async function loadBooks() {
         const res = await fetch(url);
         const books = await res.json();
 
-        const list = document.getElementById('book_list');
-        list.innerHTML = '';
+        books.sort((a, b) => a.title.localeCompare(b.title));
 
+        const grouped = {};
         books.forEach(book => {
-            const li = document.createElement('li');
-            li.innerHTML = `<strong>${book.title}</strong> – ${book.author}
-                <button onclick="showDetails(${book.id})">Szczegóły</button>`;
-            list.appendChild(li);
+            const letter = book.title[0].toUpperCase();
+            if (!grouped[letter]) grouped[letter] = [];
+            grouped[letter].push(book);
         });
+
+        const container = document.getElementById('book_list');
+        container.innerHTML = '';
+
+        Object.keys(grouped).sort().forEach(letter => {
+            const groupDiv = document.createElement('div');
+            groupDiv.className = 'book-group';
+
+            const header = document.createElement('h3');
+            header.textContent = letter;
+
+            const ul = document.createElement('ul');
+
+            grouped[letter].forEach(book => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <strong>${book.title}</strong> – ${book.author}
+                    <button onclick="showDetails(${book.id})">Szczegóły</button>
+                `;
+                ul.appendChild(li);
+            });
+
+            groupDiv.appendChild(header);
+            groupDiv.appendChild(ul);
+            container.appendChild(groupDiv);
+        });
+
     } catch (err) {
         document.getElementById('output').textContent = 'Błąd ładowania książek';
     }
 }
+
+
 
 async function showDetails(bookId) {
     try {

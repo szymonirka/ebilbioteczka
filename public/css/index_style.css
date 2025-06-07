@@ -86,20 +86,39 @@ body {
 
 
 #book_list {
-    list-style: none;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    align-items: flex-start;
 }
 
-#book_list li {
-    position: relative; /* Dodane dla pozycjonowania przycisku */
+.book-group {
+    flex: 1 1 250px;
+    min-width: 200px;
+}
+
+.book-group h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.3em;
+    color: #6c584c;
+    border-bottom: 2px solid #d4a373;
+    padding-bottom: 4px;
+}
+
+.book-group ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.book-group li {
+    position: relative;
     padding: 15px;
+    margin-bottom: 15px;
     border: 1px solid #d4a373;
     border-radius: 4px;
     background-color: #f8f9fa;
-    min-height: 80px; /* Zapewnia miejsce na przycisk */
+    min-height: 80px;
 }
 
 #book_list li a {
@@ -139,4 +158,12 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+#book_list h3 {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-size: 1.4em;
+    color: #d4a373;
+    border-bottom: 1px solid #d4a373;
 }
