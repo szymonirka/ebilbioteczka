@@ -119,12 +119,16 @@ body {
     border-radius: 4px;
     background-color: #f8f9fa;
     min-height: 80px;
+
 }
 
 #book_list li a {
     color: #6c584c;
     display: block;
     margin-bottom: 30px; /* Miejsce na przycisk */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #book_list li button {
@@ -167,3 +171,26 @@ a:hover {
     color: #d4a373;
     border-bottom: 1px solid #d4a373;
 }
+
+#latest_section {
+    margin-bottom: 30px;
+    padding: 10px;
+    border: 2px dashed #d4a373;
+    border-radius: 8px;
+}
+
+#latest_section h2 {
+    margin-top: 0;
+    color: #6c584c;
+}
+
+#latest_books {
+    list-style: none;
+    padding: 0;
+}
+
+#latest_books li {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+

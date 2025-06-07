@@ -27,6 +27,19 @@ router.get('/', async (req, res) => {
     }
 });
 
+// pobierz 3 ostatnio dodane ksiazki
+router.get('/latest', async (req, res) => {
+    try {
+        const [rows] = await pool.query(
+            'SELECT id, title, author FROM books ORDER BY id DESC LIMIT 3'
+        );
+        res.json(rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Błąd pobierania nowości' });
+    }
+});
+
 // szczegoly danej ksiazki
 router.get('/:id', async (req, res) => {
     const bookId = req.params.id;
@@ -44,3 +57,4 @@ router.get('/:id', async (req, res) => {
 });
 
 module.exports = router;
+

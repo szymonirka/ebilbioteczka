@@ -68,6 +68,26 @@ async function showDetails(bookId) {
     }
 }
 
+async function loadLatestBooks() {
+    try {
+        const res = await fetch('/api/books/latest');
+        const latest = await res.json();
+
+        const list = document.getElementById('latest_books');
+        list.innerHTML = '';
+
+        latest.forEach(book => {
+            const li = document.createElement('li');
+            li.innerHTML = `<strong>${book.title}</strong> – ${book.author} 
+                <button onclick="showDetails(${book.id})">Szczegóły</button>`;
+            list.appendChild(li);
+        });
+    } catch (err) {
+        console.error('Błąd ładowania nowości:', err);
+    }
+}
+
+
 function checkLoginStatus() {
     const token = localStorage.getItem('token');
     const statusDiv = document.getElementById('user_status');
@@ -124,4 +144,5 @@ function logout() {
 window.addEventListener('DOMContentLoaded', () => {
     checkLoginStatus();
     loadBooks();
+    loadLatestBooks();
 });
