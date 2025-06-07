@@ -1,12 +1,15 @@
 async function loadBooks() {
     const title = document.getElementById('filter_title').value;
     const author = document.getElementById('filter_author').value;
+    const category = document.getElementById('filter_category').value;
 
     let url = '/api/books';
     const params = [];
 
     if (title) params.push(`title=${encodeURIComponent(title)}`);
     if (author) params.push(`author=${encodeURIComponent(author)}`);
+    if (category) params.push(`category=${encodeURIComponent(category)}`);
+
     if (params.length > 0) {
         url += `?${params.join('&')}`;
     }
@@ -39,9 +42,9 @@ async function loadBooks() {
             grouped[letter].forEach(book => {
                 const li = document.createElement('li');
                 li.innerHTML = `
-                    <strong>${book.title}</strong> – ${book.author}
-                    <button onclick="showDetails(${book.id})">Szczegóły</button>
-                `;
+          <strong>${book.title}</strong> – ${book.author}
+          <button onclick="showDetails(${book.id})">Szczegóły</button>
+        `;
                 ul.appendChild(li);
             });
 
@@ -54,6 +57,7 @@ async function loadBooks() {
         document.getElementById('output').textContent = 'Błąd ładowania książek';
     }
 }
+
 
 
 

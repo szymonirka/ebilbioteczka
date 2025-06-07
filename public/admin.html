@@ -16,6 +16,44 @@
   <form id="addBookForm" enctype="multipart/form-data">
     <input type="text" name="title" id="book_title" placeholder="Tytuł" required><br>
     <input type="text" name="author" id="book_author" placeholder="Autor" required><br>
+    <label for="book_category">Kategoria:</label>
+    <select id="book_category" name="category" required>
+      <option value="">-- Wybierz kategorię --</option>
+      <option>Fantasy</option>
+      <option>Science Fiction</option>
+      <option>Romans</option>
+      <option>Kryminał</option>
+      <option>Thriller</option>
+      <option>Horror</option>
+      <option>Literatura piękna</option>
+      <option>Literatura faktu</option>
+      <option>Literatura polska</option>
+      <option>Biografia</option>
+      <option>Autobiografia</option>
+      <option>Poezja</option>
+      <option>Esej</option>
+      <option>Reportaż</option>
+      <option>Dramat</option>
+      <option>Komiks</option>
+      <option>Dla dzieci</option>
+      <option>Dla młodzieży</option>
+      <option>Przygodowa</option>
+      <option>Historyczna</option>
+      <option>Religijna</option>
+      <option>Filozofia</option>
+      <option>Psychologia</option>
+      <option>Nauka i technika</option>
+      <option>Biznes i ekonomia</option>
+      <option>Poradnik</option>
+      <option>Podróżnicza</option>
+      <option>Kulinaria</option>
+      <option>Sztuka</option>
+      <option>Medycyna</option>
+      <option>Informatyka</option>
+      <option>Utopia</option>
+      <option>Dystopia</option>
+    </select>
+
 
     <textarea name="content" id="book_content" placeholder="Treść książki (opcjonalne)"></textarea><br>
     <input type="file" name="pdf" id="book_pdf" accept="application/pdf"><br><br>
@@ -77,7 +115,7 @@
 
   // Książki
   async function loadBooks() {
-    const res = await fetch('/api/admin/books', {
+    const res = await fetch('/api/admin/books/', {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -90,9 +128,9 @@
     books.forEach(book => {
       const li = document.createElement('li');
       li.innerHTML = `
-            <strong>${book.title}</strong> – ${book.author}
-            <button id="delete_button" onclick="deleteBook(${book.id})">🗑️ Usuń</button>
-            <button id="edit_button" onclick="showEditForm(${book.id}, '${book.title}', '${book.author}')">✏️ Edytuj</button>
+        <strong>${book.title}</strong> – ${book.author}
+        <button id="delete_button" onclick="deleteBook(${book.id})">🗑️ Usuń</button>
+        <button id="edit_button" onclick="showEditForm(${book.id}, '${book.title}', '${book.author}', '${book.category}')">✏️ Edytuj</button>
         `;
       list.appendChild(li);
     });
@@ -101,40 +139,60 @@
 
   //formularz edycji ksiazki
 
-  function showEditForm(id, title, author) {
+  function showEditForm(id, title, author, category) {
     const editSection = document.createElement('div');
     editSection.id = 'editSection_' + id;
+
+    // Lista kategorii
+    const categories = [
+      "Fantasy", "Science Fiction", "Romans", "Kryminał", "Thriller", "Horror",
+      "Literatura piękna", "Literatura faktu", "Literatura polska", "Biografia",
+      "Autobiografia", "Poezja", "Esej", "Reportaż", "Dramat", "Komiks", "Dla dzieci",
+      "Dla młodzieży", "Przygodowa", "Historyczna", "Religijna", "Filozofia", "Psychologia",
+      "Nauka i technika", "Biznes i ekonomia", "Poradnik", "Podróżnicza", "Kulinaria",
+      "Sztuka", "Medycyna", "Informatyka", "Utopia", "Dystopia"
+    ];
+
+    const categoryOptions = categories.map(cat =>
+            `<option value="${cat}" ${cat === category ? 'selected' : ''}>${cat}</option>`
+    ).join('');
+
     editSection.innerHTML = `
         <h3>Edytuj książkę (ID: ${id})</h3>
         <input type="text" id="edit_title_${id}" value="${title}" placeholder="Tytuł"><br>
         <input type="text" id="edit_author_${id}" value="${author}" placeholder="Autor"><br>
+        <label for="edit_category_${id}">Kategoria:</label>
+        <select id="edit_category_${id}">${categoryOptions}</select><br>
         <input type="file" id="edit_pdf_${id}" accept="application/pdf"><br><br>
         <button onclick="submitEdit(${id})">Zapisz zmiany</button>
         <button onclick="cancelEdit(${id})">Anuluj</button>
         <hr>
     `;
 
-    // Wstawiamy formularz pod listą książek
     const list = document.getElementById('book_list');
     list.parentNode.insertBefore(editSection, list.nextSibling);
   }
+
+
   // wysylanie zmian po edycji ksiazki
 
   async function submitEdit(id) {
     const title = document.getElementById(`edit_title_${id}`).value;
     const author = document.getElementById(`edit_author_${id}`).value;
+    const category = document.getElementById(`edit_category_${id}`).value;
     const pdfFile = document.getElementById(`edit_pdf_${id}`).files[0];
 
     const formData = new FormData();
     formData.append('title', title);
     formData.append('author', author);
+    formData.append('category', category);
     if (pdfFile) {
       formData.append('pdf', pdfFile);
     }
 
     try {
       const res = await fetch(`/api/admin/books/${id}`, {
-        method: 'PUT', // edytujemy!
+        method: 'PUT',
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem('token')
         },
@@ -144,11 +202,12 @@
       const data = await res.json();
       alert(data.message || "Zmiany zapisane!");
       loadBooks();
-      document.getElementById(`editSection_${id}`).remove(); // usuń formularz edycji
+      document.getElementById(`editSection_${id}`).remove();
     } catch (err) {
       console.error(err);
       alert('Błąd podczas edycji książki.');
     }
+
   }
   // anulowanie edycji ksiazki
   function cancelEdit(id) {
@@ -161,22 +220,24 @@
     const title = document.getElementById('book_title').value;
     const author = document.getElementById('book_author').value;
     const content = document.getElementById('book_content').value;
-    const pdfFile = document.getElementById('book_pdf').files[0]; // <-- plik pdf
+    const category = document.getElementById('book_category').value; // <-- POBIERANIE KATEGORII
+    const pdfFile = document.getElementById('book_pdf').files[0];
 
     const formData = new FormData();
     formData.append('title', title);
     formData.append('author', author);
     formData.append('content', content);
+    formData.append('category', category); // <-- DODAJ DO FORMULARZA
+
     if (pdfFile) {
       formData.append('pdf', pdfFile);
     }
 
     try {
-      const res = await fetch('/api/admin/books/upload', { // <<< ważne: /upload
+      const res = await fetch('/api/admin/books/', {
         method: 'POST',
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem('token')
-          // NIE ustawiamy Content-Type ręcznie! (fetch sam to zrobi przy FormData)
         },
         body: formData
       });
@@ -192,7 +253,9 @@
       alert('Błąd podczas dodawania książki.');
     }
   }
-  //usuniecie ksiazki
+
+//usuwanie ksiazki
+
   async function deleteBook(id) {
     if (!confirm("Na pewno usunąć książkę?")) return;
 

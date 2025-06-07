@@ -4,7 +4,7 @@ const pool = require('../db');
 
 // pobieranie wszystkich kasiazk
 router.get('/', async (req, res) => {
-    const { title, author } = req.query;
+    const { title, author, category } = req.query;
     let sql = 'SELECT * FROM books WHERE 1=1';
     const params = [];
 
@@ -16,6 +16,10 @@ router.get('/', async (req, res) => {
     if (author) {
         sql += ' AND author LIKE ?';
         params.push(`%${author}%`);
+    }
+    if (category) {
+        sql += ' AND category = ?';
+        params.push(category);
     }
 
     try {

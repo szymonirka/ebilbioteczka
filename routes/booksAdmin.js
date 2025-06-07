@@ -5,24 +5,38 @@ const auth = require('../middleware/authMiddleware');
 const isAdmin = require('../middleware/isAdmin');
 const multer = require('multer');
 
+// 🔧 Konfiguracja multer (upload plików)
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/uploads/');
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname);
+    }
+});
+const upload = multer({ storage: storage });
 
-// Dodaj ksiazke
-router.post('/', auth, isAdmin, async (req, res) => {
-    const { title, author, content } = req.body;
+
+// ✅ Dodaj książkę (z kategorią i opcjonalnym PDF)
+router.post('/', auth, isAdmin, upload.single('pdf'), async (req, res) => {
+    const { title, author, content, category } = req.body;
+    const pdfPath = req.file ? `/uploads/${req.file.filename}` : null;
 
     try {
-        await pool.query('INSERT INTO books (title, author, content) VALUES (?, ?, ?)', [title, author, content]);
-        res.json({ message: 'Książka została dodana.' });
+        await pool.query(
+            'INSERT INTO books (title, author, content, category, pdf_path) VALUES (?, ?, ?, ?, ?)',
+            [title, author, content, category, pdfPath]
+        );
+        res.json({ message: 'Książka została dodana z PDF.' });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Błąd podczas dodawania książki.' });
     }
 });
 
-// Usun ksiazke
+// 🗑 Usuń książkę
 router.delete('/:id', auth, isAdmin, async (req, res) => {
     const bookId = req.params.id;
-
     try {
         await pool.query('DELETE FROM books WHERE id = ?', [bookId]);
         res.json({ message: 'Książka została usunięta.' });
@@ -32,43 +46,23 @@ router.delete('/:id', auth, isAdmin, async (req, res) => {
     }
 });
 
-// multer (upload pdf do public/uploads)
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'public/uploads/');
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname);
-    }
-});
-
-const upload = multer({ storage: storage });
-
-// pdf ksiazka endpoint
-router.post('/upload', auth, isAdmin, upload.single('pdf'), async (req, res) => {
-    const { title, author, content } = req.body;
-    const pdfPath = req.file ? `/uploads/${req.file.filename}` : null;
-
-    try {
-        await pool.query('INSERT INTO books (title, author, content, pdf_path) VALUES (?, ?, ?, ?)', [title, author, content, pdfPath]);
-        res.json({ message: 'Książka została dodana z PDF.' });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Błąd podczas dodawania książki.' });
-    }
-});
-//edycja ksiazki
-
+// ✏️ Edytuj książkę
 router.put('/:id', auth, isAdmin, upload.single('pdf'), async (req, res) => {
-    const { title, author } = req.body;
+    const { title, author, category } = req.body;
     const pdfPath = req.file ? `/uploads/${req.file.filename}` : null;
     const bookId = req.params.id;
 
     try {
         if (pdfPath) {
-            await pool.query('UPDATE books SET title = ?, author = ?, pdf_path = ? WHERE id = ?', [title, author, pdfPath, bookId]);
+            await pool.query(
+                'UPDATE books SET title = ?, author = ?, category = ?, pdf_path = ? WHERE id = ?',
+                [title, author, category, pdfPath, bookId]
+            );
         } else {
-            await pool.query('UPDATE books SET title = ?, author = ? WHERE id = ?', [title, author, bookId]);
+            await pool.query(
+                'UPDATE books SET title = ?, author = ?, category = ? WHERE id = ?',
+                [title, author, category, bookId]
+            );
         }
         res.json({ message: 'Książka została zaktualizowana.' });
     } catch (err) {
@@ -77,16 +71,15 @@ router.put('/:id', auth, isAdmin, upload.single('pdf'), async (req, res) => {
     }
 });
 
-// pobieranie wszystkich ksiazek
+// 📚 Pobierz wszystkie książki
 router.get('/', auth, isAdmin, async (req, res) => {
     try {
-        const [books] = await pool.query('SELECT id, title, author FROM books');
+        const [books] = await pool.query('SELECT id, title, author, category FROM books');
         res.json(books);
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Błąd pobierania książek.' });
     }
 });
-
 
 module.exports = router;
