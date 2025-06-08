@@ -22,7 +22,7 @@ async function loadBooks() {
 
         const grouped = {};
         books.forEach(book => {
-            const letter = book.title[0].toUpperCase();
+            const letter = book.title.charAt(0).toUpperCase();
             if (!grouped[letter]) grouped[letter] = [];
             grouped[letter].push(book);
         });
@@ -31,32 +31,40 @@ async function loadBooks() {
         container.innerHTML = '';
 
         Object.keys(grouped).sort().forEach(letter => {
-            const groupDiv = document.createElement('div');
-            groupDiv.className = 'book-group';
+            const section = document.createElement('section');
+            section.classList.add('book-letter-section');
 
-            const header = document.createElement('h3');
+            const header = document.createElement('h2');
             header.textContent = letter;
+            section.appendChild(header);
 
-            const ul = document.createElement('ul');
+            const grid = document.createElement('div');
+            grid.classList.add('book-grid');
 
             grouped[letter].forEach(book => {
-                const li = document.createElement('li');
-                li.innerHTML = `
-          <strong>${book.title}</strong> – ${book.author}
-          <button onclick="showDetails(${book.id})">Szczegóły</button>
-        `;
-                ul.appendChild(li);
+                const card = document.createElement('div');
+                card.classList.add('book-card');
+
+                card.innerHTML = `
+                    <h3>${book.title}</h3>
+                    <p>${book.author}</p>
+                    <p><em>${book.category}</em></p>
+                    <button onclick="showDetails(${book.id})">Szczegóły</button>
+                `;
+
+                grid.appendChild(card);
             });
 
-            groupDiv.appendChild(header);
-            groupDiv.appendChild(ul);
-            container.appendChild(groupDiv);
+            section.appendChild(grid);
+            container.appendChild(section);
         });
 
     } catch (err) {
+        console.error(err);
         document.getElementById('output').textContent = 'Błąd ładowania książek';
     }
 }
+
 
 
 
