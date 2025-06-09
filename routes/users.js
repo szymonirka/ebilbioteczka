@@ -39,7 +39,7 @@ router.delete('/delete', auth, async (req, res) =>{
    const userIf = req.user.id;
 
    try {
-       await pool.query('DELETE FROM users WHERE id = ?', [userId]);
+       await pool.query('DELETE FROM users WHERE id = ?', [req.user.id]);
        res.json({message: "Konto zostało usunięte"});
    } catch (err){
      console.error(err);
