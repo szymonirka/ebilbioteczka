@@ -5,7 +5,7 @@ const auth = require('../middleware/authMiddleware');
 const isAdmin = require('../middleware/isAdmin');
 const multer = require('multer');
 
-// 🔧 Konfiguracja multer (upload plików)
+//Konfiguracja multer (upload plików)
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'public/uploads/');
@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 
-// ✅ Dodaj książkę (z kategorią i opcjonalnym PDF)
+// Dodaj książkę
 router.post('/', auth, isAdmin, upload.single('pdf'), async (req, res) => {
     const { title, author, content, category } = req.body;
     const pdfPath = req.file ? `/uploads/${req.file.filename}` : null;
@@ -34,7 +34,7 @@ router.post('/', auth, isAdmin, upload.single('pdf'), async (req, res) => {
     }
 });
 
-// 🗑 Usuń książkę
+// Usuń książkę
 router.delete('/:id', auth, isAdmin, async (req, res) => {
     const bookId = req.params.id;
     try {
@@ -46,7 +46,7 @@ router.delete('/:id', auth, isAdmin, async (req, res) => {
     }
 });
 
-// ✏️ Edytuj książkę
+// Edytuj książkę
 router.put('/:id', auth, isAdmin, upload.single('pdf'), async (req, res) => {
     const { title, author, category } = req.body;
     const pdfPath = req.file ? `/uploads/${req.file.filename}` : null;
@@ -71,7 +71,7 @@ router.put('/:id', auth, isAdmin, upload.single('pdf'), async (req, res) => {
     }
 });
 
-// 📚 Pobierz wszystkie książki
+// Pobierz wszystkie książki
 router.get('/', auth, isAdmin, async (req, res) => {
     try {
         const [books] = await pool.query('SELECT id, title, author, category FROM books');

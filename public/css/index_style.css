@@ -1,4 +1,6 @@
-/*index.html*/
+.header_book_list{
+    width: 70%;
+}
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -248,3 +250,178 @@ a:hover {
     background-color: #5a4a3f;
 }
 
+#hero {
+    background-image: url('../images/man.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 100px 20px;
+    margin-bottom: 40px;
+    border-radius: 12px;
+}
+
+#hero h1 {
+    font-size: 2.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    line-height: 1.3;
+}
+
+
+
+.placeholder {
+    background: linear-gradient(45deg, #d9534f, #c9302c);
+}
+
+/* Stopka */
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 0;
+    margin-top: 50px;
+    border-top: 1px solid #d4a373;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-links a {
+    color: #6c584c;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.footer-links a:hover {
+    color: #d4a373;
+    text-decoration: underline;
+}
+
+.footer-copyright {
+    color: #6c584c;
+    font-weight: bold;
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+    #hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .carousel-item {
+        flex: 0 0 250px;
+        height: 350px;
+    }
+
+    footer {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .footer-links {
+        justify-content: center;
+    }
+
+}
+
+.carousel-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding: 20px 40px;
+    box-sizing: border-box;
+    border: 2px dashed #d4a373;
+    border-radius: 10px;
+}
+
+.carousel-track {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+}
+
+.carousel-track::-webkit-scrollbar {
+    display: none;
+}
+
+.carousel-item {
+    flex: 0 0 calc(20% - 20px);
+    min-width: 200px;
+    background: linear-gradient(to right, #fefefe 0%, #fff 80%, #ddd 100%);
+    border: 1px solid #ccc;
+    border-radius: 4px 8px 8px 4px;
+    padding: 20px 15px;
+    box-shadow: inset 4px 0 8px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.1);
+    text-align: left;
+    position: relative;
+    scroll-snap-align: start;
+    transition: transform 0.3s;
+}
+
+.carousel-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 5%;
+    bottom: 5%;
+    width: 6px;
+    background: linear-gradient(to bottom, #b08968, #7f5539);
+    border-radius: 3px 0 0 3px;
+}
+
+.carousel-item:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.carousel-item strong {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.carousel-item span {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+
+.carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #6c584c;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.left-arrow {
+    left: 0;
+}
+
+.right-arrow {
+    right: 0;
+}
+
+@media (max-width: 768px) {
+    .carousel-item {
+        flex: 0 0 80%;
+    }
+}

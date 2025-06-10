@@ -35,7 +35,7 @@ router.get('/', async (req, res) => {
 router.get('/latest', async (req, res) => {
     try {
         const [rows] = await pool.query(
-            'SELECT id, title, author FROM books ORDER BY id DESC LIMIT 3'
+            'SELECT id, title, author FROM books ORDER BY id DESC LIMIT 5'
         );
         res.json(rows);
     } catch (err) {

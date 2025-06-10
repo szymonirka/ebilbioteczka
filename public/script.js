@@ -80,24 +80,95 @@ async function showDetails(bookId) {
     }
 }
 
+function getItemWidth() {
+    const carousel = document.getElementById('latest_carousel');
+    const item = carousel?.querySelector('.carousel-item');
+    if (!item) return 300;
+    const style = window.getComputedStyle(item);
+    const width = item.offsetWidth;
+    const marginLeft = parseInt(style.marginLeft) || 0;
+    const marginRight = parseInt(style.marginRight) || 0;
+    return width + marginLeft + marginRight + 20; // +gap
+}
+
+function scrollRight() {
+    const carousel = document.getElementById('latest_carousel');
+    const scrollAmount = getItemWidth();
+    const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+
+    if (carousel.scrollLeft + scrollAmount >= maxScroll - 5) {
+        // wróć na początek
+        carousel.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+        carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+}
+
+function scrollLeft() {
+    const carousel = document.getElementById('latest_carousel');
+    const scrollAmount = getItemWidth();
+
+    if (carousel.scrollLeft <= 0) {
+        // skocz na koniec
+        carousel.scrollTo({ left: carousel.scrollWidth, behavior: 'smooth' });
+    } else {
+        carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    }
+}
+
+
+function initCarousel() {
+    const leftArrow = document.getElementById('carousel_left');
+    const rightArrow = document.getElementById('carousel_right');
+
+    // Zamiana miejscami funkcji:
+    leftArrow.addEventListener('click', scrollRight);  // ← teraz przesuwa W PRAWO
+    rightArrow.addEventListener('click', scrollLeft);  // → teraz przesuwa W LEWO
+}
+
+
+
 async function loadLatestBooks() {
     try {
         const res = await fetch('/api/books/latest');
         const latest = await res.json();
 
-        const list = document.getElementById('latest_books');
-        list.innerHTML = '';
+        const carousel = document.getElementById('latest_carousel');
+        if (!carousel) return;
+
+        carousel.innerHTML = ''; // czyść stare
 
         latest.forEach(book => {
-            const li = document.createElement('li');
-            li.innerHTML = `<strong>${book.title}</strong> – ${book.author} 
-                <button onclick="showDetails(${book.id})">Szczegóły</button>`;
-            list.appendChild(li);
+            const item = document.createElement('div');
+            item.className = 'carousel-item';
+            item.innerHTML = `
+                <strong>${book.title}</strong><br>
+                <span>${book.author}</span>
+            `;
+            item.addEventListener('click', () => {
+                window.location.href = `book.html?id=${book.id}`;
+            });
+            carousel.appendChild(item);
         });
+        carousel.addEventListener('mouseenter', stopAutoScroll);
+        carousel.addEventListener('mouseleave', startAutoScroll);
     } catch (err) {
         console.error('Błąd ładowania nowości:', err);
     }
 }
+let autoScrollInterval;
+
+function startAutoScroll() {
+    autoScrollInterval = setInterval(() => {
+        scrollRight();
+    }, 3000); // co 3 sekundy
+}
+
+function stopAutoScroll() {
+    clearInterval(autoScrollInterval);
+}
+
+
 
 
 function checkLoginStatus() {
@@ -156,5 +227,8 @@ function logout() {
 window.addEventListener('DOMContentLoaded', () => {
     checkLoginStatus();
     loadBooks();
-    loadLatestBooks();
+    loadLatestBooks().then(() => {
+        initCarousel();
+        startAutoScroll();
+    });
 });
