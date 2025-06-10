@@ -3,92 +3,156 @@
 <head>
   <link rel="stylesheet" href="css/admin_style.css">
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel Administratora</title>
 </head>
 <body>
-<h1>Panel Administratora</h1>
+<header class="admin-header">
+  <div class="header-content">
+    <h1>Panel Administratora</h1>
+    <div id="admin_status"></div>
+  </div>
+</header>
 
-<div id="admin_status"></div>
+<main class="admin-container">
+  <section id="admin_books_management" class="admin-section">
+    <div class="section-header">
+      <h2><i class="icon-book"></i> Zarządzanie książkami</h2>
+    </div>
 
-<section id="admin_books_management">
-  <h2> Dodaj nową książkę</h2>
+    <div class="section-content">
+      <div class="form-container">
+        <h3>Dodaj nową książkę</h3>
+        <form id="addBookForm" enctype="multipart/form-data" class="modern-form">
+          <div class="form-group">
+            <input type="text" name="title" id="book_title" placeholder=" " required>
+            <label for="book_title">Tytuł książki</label>
+          </div>
 
-  <form id="addBookForm" enctype="multipart/form-data">
-    <input type="text" name="title" id="book_title" placeholder="Tytuł" required><br>
-    <input type="text" name="author" id="book_author" placeholder="Autor" required><br>
-    <label for="book_category">Kategoria:</label>
-    <select id="book_category" name="category" required>
-      <option value="">-- Wybierz kategorię --</option>
-      <option>Fantasy</option>
-      <option>Science Fiction</option>
-      <option>Romans</option>
-      <option>Kryminał</option>
-      <option>Thriller</option>
-      <option>Horror</option>
-      <option>Literatura piękna</option>
-      <option>Literatura faktu</option>
-      <option>Literatura polska</option>
-      <option>Biografia</option>
-      <option>Autobiografia</option>
-      <option>Poezja</option>
-      <option>Esej</option>
-      <option>Reportaż</option>
-      <option>Dramat</option>
-      <option>Komiks</option>
-      <option>Dla dzieci</option>
-      <option>Dla młodzieży</option>
-      <option>Przygodowa</option>
-      <option>Historyczna</option>
-      <option>Religijna</option>
-      <option>Filozofia</option>
-      <option>Psychologia</option>
-      <option>Nauka i technika</option>
-      <option>Biznes i ekonomia</option>
-      <option>Poradnik</option>
-      <option>Podróżnicza</option>
-      <option>Kulinaria</option>
-      <option>Sztuka</option>
-      <option>Medycyna</option>
-      <option>Informatyka</option>
-      <option>Utopia</option>
-      <option>Dystopia</option>
-    </select>
+          <div class="form-group">
+            <input type="text" name="author" id="book_author" placeholder=" " required>
+            <label for="book_author">Autor</label>
+          </div>
 
+          <div class="form-group select-group">
+            <select id="book_category" name="category" required>
+              <option value=""></option>
+              <option>Fantasy</option>
+              <option>Science Fiction</option>
+              <option>Romans</option>
+              <option>Kryminał</option>
+              <option>Thriller</option>
+              <option>Horror</option>
+              <option>Literatura piękna</option>
+              <option>Literatura faktu</option>
+              <option>Literatura polska</option>
+              <option>Biografia</option>
+              <option>Autobiografia</option>
+              <option>Poezja</option>
+              <option>Esej</option>
+              <option>Reportaż</option>
+              <option>Dramat</option>
+              <option>Komiks</option>
+              <option>Dla dzieci</option>
+              <option>Dla młodzieży</option>
+              <option>Przygodowa</option>
+              <option>Historyczna</option>
+              <option>Religijna</option>
+              <option>Filozofia</option>
+              <option>Psychologia</option>
+              <option>Nauka i technika</option>
+              <option>Biznes i ekonomia</option>
+              <option>Poradnik</option>
+              <option>Podróżnicza</option>
+              <option>Kulinaria</option>
+              <option>Sztuka</option>
+              <option>Medycyna</option>
+              <option>Informatyka</option>
+              <option>Utopia</option>
+              <option>Dystopia</option>
+            </select>
+            <label for="book_category">Kategoria</label>
+            <div class="select-arrow"></div>
+          </div>
 
-    <textarea name="content" id="book_content" placeholder="Treść książki (opcjonalne)"></textarea><br>
-    <input type="file" name="pdf" id="book_pdf" accept="application/pdf"><br><br>
+          <div class="form-group textarea-group">
+            <textarea name="content" id="book_content" placeholder=" "></textarea>
+            <label for="book_content">Opis książki</label>
+          </div>
 
-    <button type="submit">Dodaj książkę</button>
-  </form>
+          <div class="form-group file-group">
+            <label for="book_pdf" class="file-label">
+              <span class="file-button">Wybierz plik PDF</span>
+              <span id="file-name">Nie wybrano pliku</span>
+            </label>
+            <input type="file" name="pdf" id="book_pdf" accept="application/pdf">
+          </div>
+            <br>
+          <button type="submit" class="btn primary-btn">
+            <i class="icon-add"></i> Dodaj książkę
+          </button>
+        </form>
+      </div>
 
+      <div class="list-container">
+        <h3>Istniejące książki</h3>
+        <div class="card-list" id="book_list"></div>
+      </div>
+    </div>
+  </section>
 
-  <h3>Istniejące książki:</h3>
-  <ul id="book_list"></ul>
-</section>
+  <section id="admin_user_management" class="admin-section">
+    <div class="section-header">
+      <h2><i class="icon-users"></i> Zarządzanie użytkownikami</h2>
+    </div>
 
-<hr>
+    <div class="section-content">
+      <div class="form-container">
+        <h3>Dodaj nowego użytkownika</h3>
+        <form class="modern-form" id="addUserForm">
+          <div class="form-group">
+            <input type="text" id="new_user_username" placeholder=" " required>
+            <label for="new_user_username">Nazwa użytkownika</label>
+          </div>
 
-<section id="admin_user_management">
-  <h2>Zarządzanie isniejącymi użytkownikami</h2>
-  <ul id="user_list"></ul>
-</section>
+          <div class="form-group">
+            <input type="password" id="new_user_password" placeholder=" " required>
+            <label for="new_user_password">Hasło</label>
+          </div>
 
-<div id="admin_add_user">
-  <h2>Dodaj użytkownika</h2>
-  <input type="text" id="new_user_username" placeholder="Nazwa użytkownika">
-  <input type="password" id="new_user_password" placeholder="Hasło">
-  <input type="password" id="new_user_confirm_password" placeholder="Potwierdź hasło">
-  <select id="new_user_role">
-    <option value="user">Użytkownik</option>
-    <option value="admin">Administrator</option>
-  </select>
-  <button onclick="createUser()">Dodaj użytkownika</button>
-</div>
+          <div class="form-group">
+            <input type="password" id="new_user_confirm_password" placeholder=" " required>
+            <label for="new_user_confirm_password">Potwierdź hasło</label>
+          </div>
 
+          <div class="form-group select-group">
+            <select id="new_user_role">
+              <option value="user">Użytkownik</option>
+              <option value="admin">Administrator</option>
+            </select>
+            <label for="new_user_role">Rola</label>
+            <div class="select-arrow"></div>
+          </div>
 
+          <button type="button" onclick="createUser()" class="btn primary-btn">
+            <i class="icon-add-user"></i> Dodaj użytkownika
+          </button>
+        </form>
+      </div>
 
-<p><a href="index.html">← Powrót do strony głównej</a></p>
+      <div class="list-container">
+        <h3>Istniejący użytkownicy</h3>
+        <div class="card-list" id="user_list"></div>
+      </div>
+    </div>
+  </section>
+</main>
 
+<footer class="admin-footer">
+  <a href="index.html" class="back-link">
+    <i class="icon-arrow-back"></i> Powrót do strony głównej
+  </a>
+</footer>
 <script>
   const token = localStorage.getItem('token');
   const headers = {

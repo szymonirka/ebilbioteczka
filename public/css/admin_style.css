@@ -1,200 +1,328 @@
-/* ======================== */
-/* === ADMIN PANEL STYLES === */
-/* ======================== */
+:root {
+    --primary-color: #5D4037;
+    --primary-light: #8D6E63;
+    --primary-dark: #3E2723;
+    --secondary-color: #D7CCC8;
+    --background-light: #f5f5f5;
+    --background-white: #ffffff;
+    --text-dark: #333333;
+    --text-light: #757575;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.15);
+    --transition: all 0.3s ease;
+}
 
+/* Base styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    background-color: var(--background-light);
+    color: var(--text-dark);
     line-height: 1.6;
-    background-color: #f5f5f5;
-    color: #333;
+}
+
+/* Header */
+.admin-header {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+    color: white;
+    padding: 2rem 0;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+}
+
+.header-content {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 2rem;
 }
 
-h1, h2, h3 {
-    color: #5D4037;
+.admin-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 300;
 }
 
-/* Nagłówek statusu */
 #admin_status {
-    padding: 10px;
-    background-color: #D7CCC8;
-    margin-bottom: 20px;
-    border-radius: 4px;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    opacity: 0.9;
 }
 
-/* Sekcje zarządzania */
-section {
-    background-color: white;
-    padding: 20px;
-    margin-bottom: 30px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+/* Main container */
+.admin-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
 }
 
-hr {
-    border: 0;
-    height: 1px;
-    background-color: #D7CCC8;
-    margin: 30px 0;
+/* Sections */
+.admin-section {
+    background: var(--background-white);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+    overflow: hidden;
 }
 
-/* Formularze */
-form, #admin_add_user {
-    background-color: #FFF8E1;
-    padding: 20px;
-    border-radius: 5px;
-    margin-bottom: 20px;
+.section-header {
+    background: linear-gradient(to right, var(--primary-light), var(--primary-color));
+    color: white;
+    padding: 1rem 2rem;
 }
 
-input[type="text"],
-input[type="password"],
-select {
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #D7CCC8;
-    border-radius: 4px;
-}
-
-#addBookForm {
+.section-header h2 {
+    margin: 0;
+    font-weight: 500;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
     align-items: center;
-    width: 100%;
 }
 
-#book_title {
-    grid-area: title;
+.section-header i {
+    margin-right: 0.8rem;
+    font-size: 1.2em;
 }
 
-#book_author {
-    grid-area: author;
+.section-content {
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
 }
 
-#book_content {
-    grid-area: textarea;
-    height: 100%; /* Wypełnia całą dostępną wysokość */
-    min-height: 120px; /* Minimalna wysokość */
-    resize: vertical; /* Pozwala tylko na pionowy resize */
-}
-
-#book_pdf {
-    grid-area: pdf;
-    width: 100%;
-}
-
-#addBookForm button {
-    grid-area: button;
-    justify-self: start; /* Przycisk wyrównany do lewej */
-}
-
-#delete_button{
-
-}
-
-/* Responsywność */
 @media (max-width: 768px) {
-    #addBookForm {
-        grid-template-areas:
-      "title"
-      "author"
-      "textarea"
-      "pdf"
-      "button";
+    .section-content {
         grid-template-columns: 1fr;
     }
 }
 
-textarea {
-    min-height: 100px;
+/* Forms */
+.modern-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    position: relative;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: var(--background-white);
+    transition: var(--transition);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 2px rgba(141, 110, 99, 0.2);
+}
+
+.form-group label {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    color: var(--text-light);
+    transition: var(--transition);
+    pointer-events: none;
+    background-color: var(--background-white);
+    padding: 0 0.3rem;
+}
+
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label,
+.form-group textarea:focus + label,
+.form-group textarea:not(:placeholder-shown) + label,
+.form-group select:focus + label,
+.form-group select:not([value=""]) + label {
+    top: -0.6rem;
+    left: 0.8rem;
+    font-size: 0.8rem;
+    color: var(--primary-color);
+}
+
+/* Select styles */
+.select-group {
+    position: relative;
+}
+
+.select-group select {
+    appearance: none;
+    padding-right: 2.5rem;
+}
+
+.select-arrow {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid var(--text-light);
+    pointer-events: none;
+}
+
+/* Textarea styles */
+.form-group textarea {
+    min-height: 120px;
     resize: vertical;
 }
 
-input[type="file"] {
-    margin-bottom: 15px;
+/* File input styles */
+.file-group {
+    margin-top: 1rem;
 }
 
-/* Listy */
-ul {
-    list-style: none;
-    padding: 0;
+.file-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 }
 
-#book_list li, #user_list li {
-    padding: 15px;
-    background-color: white;
-    border: 1px solid #D7CCC8;
+.file-button {
+    background-color: var(--primary-light);
+    color: white;
+    padding: 0.8rem 1.2rem;
     border-radius: 4px;
-    margin-bottom: 10px;
+    margin-right: 1rem;
+    transition: var(--transition);
+}
+
+.file-button:hover {
+    background-color: var(--primary-color);
+}
+
+#file-name {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+/* Buttons */
+.btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn i {
+    margin-right: 0.5rem;
+}
+
+.primary-btn {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: var(--shadow);
+}
+
+.primary-btn:hover {
+    background-color: var(--primary-dark);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+
+/* Card list */
+.card-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.card-list li {
+    background: var(--background-white);
+    border-radius: 6px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: var(--transition);
 }
 
-/* Przyciski */
-#edit_button {
-    padding: 8px 15px;
-    background-color: #5D4037;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-left: 10px;
-    transition: background-color 0.2s;
+.card-list li:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
 }
 
-#delete_button {
-    padding: 8px 15px;
-    background-color: #5D4037;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-left: 10px;
-    transition: background-color 0.2s;
-    border: solid;
-    border: outset #f33;
+.card-list strong {
+    font-weight: 500;
 }
 
-button:hover {
-    background-color: #3E2723;
+/* Footer */
+.admin-footer {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+    text-align: center;
 }
 
-/* Formularz edycji */
-[id^="editSection_"] {
-    background-color: #FFF8E1;
-    padding: 20px;
-    margin: 20px 0;
-    border-radius: 5px;
-}
-
-/* Link powrotu */
-a {
-    color: #5D4037;
+.back-link {
+    color: var(--primary-color);
     text-decoration: none;
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 15px;
-    background-color: #D7CCC8;
-    border-radius: 4px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    transition: var(--transition);
 }
 
-a:hover {
+.back-link:hover {
+    color: var(--primary-dark);
     text-decoration: underline;
 }
 
-/* Responsywność */
+.back-link i {
+    margin-right: 0.5rem;
+}
+
+/* Icons (using Unicode as fallback) */
+.icon-book::before { content: "📚"; }
+.icon-users::before { content: "👥"; }
+.icon-add::before { content: "➕"; }
+.icon-add-user::before { content: "👤➕"; }
+.icon-arrow-back::before { content: "←"; }
+
+/* Edit section styles */
+[id^="editSection_"] {
+    background: var(--background-white);
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: var(--shadow);
+}
+
+/* Responsive adjustments */
 @media (max-width: 768px) {
-    #book_list li, #user_list li {
-        flex-direction: column;
-        align-items: flex-start;
+    .admin-header h1 {
+        font-size: 2rem;
     }
 
-    button {
-        margin: 5px 0;
-        width: 100%;
+    .section-header h2 {
+        font-size: 1.3rem;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        padding: 0.8rem;
     }
 }
