@@ -15,7 +15,7 @@
 body {
     font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
     margin: 0;
-    padding: 0;
+    padding: 20px;
     background-color: var(--background-white);
     color: var(--text-dark);
     line-height: 1.6;
@@ -200,7 +200,6 @@ footer {
     padding: 30px 0;
     margin-top: 50px;
     border-top: 1px solid #d4a373;
-    background-color: #fefae0;
     flex-wrap: wrap;
 }
 

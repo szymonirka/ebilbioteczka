@@ -2,6 +2,45 @@
 /* === PROFILE STYLES === */
 /* ======================== */
 
+#navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fefae0;
+    padding: 15px 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.nav-left h1 a {
+    text-decoration: none;
+    color: #6c584c;
+    font-size: 1.8em;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #6c584c;
+    font-weight: bold;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.nav-links a:hover {
+    background-color: #d4a373;
+    color: white;
+}
+
 #header_profile {
     padding-bottom: 20px;
     border-bottom: 2px solid #d4a373;
@@ -108,4 +147,37 @@ button:hover {
 
 #favorites_list li button:hover {
     background-color: #c82333;
+}
+
+/* Stopka */
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 0;
+    margin-top: 50px;
+    border-top: 1px solid #d4a373;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-links a {
+    color: #6c584c;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.footer-links a:hover {
+    color: #d4a373;
+    text-decoration: underline;
+}
+
+.footer-copyright {
+    color: #6c584c;
+    font-weight: bold;
 }

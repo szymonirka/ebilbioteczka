@@ -4,10 +4,25 @@
     <meta charset="UTF-8">
     <title>Moje konto</title>
     <link rel="stylesheet" href="css/profile_style.css">
+    <script src="script.js"></script>
 </head>
 <body>
+<header id="navbar">
+    <div class="nav-left">
+        <h1><a href="index.html">📚 eBiblioteczka</a></h1>
+    </div>
 
-<div id="header_profile">
+    <nav class="nav-links">
+        <a href="profile.html">Profil</a>
+        <a href="about.html">O nas</a>
+        <span id="admin_panel_link"></span>
+        <div id="profile_link"></div>
+        <span id="user_status"></span>
+        <div id="user_actions"></div>
+        <div id="logout_button"></div>
+    </nav>
+</header>
+<div id="main-profile">
     <h1>Panel użytkownika</h1>
 
     <h2> Zmień hasło </h2>
@@ -31,13 +46,21 @@
 </div>
 
 
+<footer>
+    <div class="footer-links">
+        <a href="#">O nas</a>
+        <a href="#">Kontakt</a>
+        <a href="#">Newsletter</a>
+        <a href="#">FAQ</a>
+        <a href="#">Polityka prywatności</a>
+        <a href="#">Regulamin</a>
+    </div>
+    <div class="footer-copyright">
+        by MRS
+    </div>
+</footer>
 
-
-
-
-<p><a href="index.html">← Powrót</a></p>
-
-<script>
+<script >
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -164,6 +187,8 @@
 
 
     window.addEventListener('DOMContentLoaded', loadFavorites);
+
+
 </script>
 </body>
 </html>
