@@ -24,10 +24,7 @@
 
 </div>
 
-
-<!-- <div id="feedback_message" style="margin-top: 10px; color: green;"></div> -->
-
-<div id="pdf_viewer"></div>
+<div id="pdf_viewer">
 
 
 
@@ -60,9 +57,14 @@
             //  jest PDF i uzytkownik zalogowany
             if (token && book.pdf_path) {
                 document.getElementById('pdf_viewer').innerHTML = `
-                    <h3>Czytaj książkę:</h3>
-                    <iframe src="${book.pdf_path}" width="100%" height="600px"></iframe>
-                `;
+  <div class="book-left"><div class="book-shadow-left"></div></div>
+  <div class="book-page">
+    <h3>📖 Czytaj książkę:</h3>
+    <iframe src="${book.pdf_path}" title="Podgląd książki"></iframe>
+  </div>
+  <div class="book-right"><div class="book-shadow-right"></div></div>
+`;
+
             }
 
             if (token) {
