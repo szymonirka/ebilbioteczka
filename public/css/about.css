@@ -22,22 +22,22 @@ body {
 }
 
 #navbar {
-
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--primary-dark);
+    background-color: #fefae0;
     padding: 15px 30px;
-    box-shadow: var(--shadow);
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 25px;
     flex-wrap: wrap;
-    border-bottom: 1px solid var(--secondary-color);
 }
 
 .nav-left h1 a {
     text-decoration: none;
-    color: var(--background-white);
+    color: #6c584c;
     font-size: 1.8em;
-    font-weight: 500;
+    font-weight: bold;
 }
 
 .nav-links {
@@ -49,40 +49,44 @@ body {
 
 .nav-links a {
     text-decoration: none;
-    color: var(--background-white);
-    font-weight: 500;
-    padding: 8px 16px;
-    border-radius: 4px;
-    transition: var(--transition);
+    color: #6c584c;
+    font-weight: bold;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background 0.2s ease;
 }
 
 .nav-links a:hover,
 .nav-links a.active {
-    background-color: var(--primary-color);
+    background-color: #d4a373;
     color: white;
 }
 
+
 #hero {
-    background: linear-gradient(135deg, #FFF8E1, var(--secondary-color));
-    color: var(--text-dark);
-    text-align: center;
+    background: linear-gradient(135deg, #fefae0, #f8f5ec);
+    color: #6c584c;
     padding: 80px 20px;
     margin-bottom: 40px;
+    text-align: center;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 #hero h1 {
     font-size: 2.5rem;
+    color: #6c584c;
+    font-family: 'Merriweather', serif;
     margin: 0 0 15px;
-    color: var(--primary-color);
-    font-weight: 400;
 }
 
 #hero p {
     font-size: 1.2rem;
     max-width: 700px;
     margin: 0 auto;
-    color: var(--text-dark);
+    color: #444;
 }
+
 
 .content {
     max-width: 1200px;
@@ -150,14 +154,16 @@ h2 {
     text-align: center;
     margin: 50px 0;
     padding: 30px;
-    background-color: var(--secondary-color);
-    border-radius: 8px;
+    background-color: #fefae0;
+    border-radius: 12px;
+    border: 2px solid #d4a373;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
 #bookCounter {
     font-size: 3rem;
     font-weight: bold;
-    color: var(--primary-color);
+    color: #6c584c;
     margin-top: 10px;
 }
 
@@ -167,32 +173,34 @@ h2 {
 }
 
 .cta {
-    padding: 12px 24px;
-    background-color: var(--primary-color);
+    padding: 10px 20px;
+    background-color: #6c584c;
     color: white;
-    border-radius: 4px;
-    font-weight: 500;
+    border-radius: 6px;
+    font-weight: bold;
     text-decoration: none;
     display: inline-block;
-    transition: var(--transition);
-    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     border: none;
     cursor: pointer;
 }
 
 .cta:hover {
-    background-color: var(--primary-dark);
+    background-color: #5a4a3f;
     transform: translateY(-2px);
-    box-shadow: var(--shadow-hover);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
+
 
 footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 30px;
-    margin-top: 80px;
-    background-color: var(--secondary-color);
+    padding: 30px 0;
+    margin-top: 50px;
+    border-top: 1px solid #d4a373;
+    background-color: #fefae0;
     flex-wrap: wrap;
 }
 
@@ -200,24 +208,30 @@ footer {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
+    justify-content: flex-start;
+    padding-left: 0;
+    margin-left: 0;
 }
 
+
+
 .footer-links a {
-    color: var(--primary-color);
+    color: #6c584c;
     text-decoration: none;
     font-weight: 500;
-    transition: var(--transition);
+    transition: color 0.2s;
 }
 
 .footer-links a:hover {
-    color: var(--primary-dark);
+    color: #d4a373;
     text-decoration: underline;
 }
 
 .footer-copyright {
-    color: var(--primary-color);
-    font-weight: 500;
+    color: #6c584c;
+    font-weight: bold;
 }
+
 
 @media (max-width: 768px) {
     #hero {
@@ -245,6 +259,7 @@ footer {
         width: 100%;
     }
 }
+
 
 /* Spójne style z panelem admina */
 .btn {
