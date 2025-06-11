@@ -59,40 +59,59 @@ body {
     }
 }
 #list_index {
+    background: #fff7ed;
+    border: 2px solid #d4a373;
+    border-radius: 12px;
+    padding: 30px 25px;
+    margin: 40px auto;
+    max-width: 1200px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.04);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 15px;
 }
 
 #list_index h2 {
-    margin: 0;
-    color: #6c584c;
+    width: 100%;
+    font-size: 1.8rem;
+    color: #5a4632;
+    margin-bottom: 10px;
+    font-family: 'Merriweather', serif;
 }
 
 #filter_title,
-#filter_author {
-    padding: 8px;
+#filter_author,
+#filter_category {
+    padding: 10px 12px;
     border: 1px solid #d4a373;
-    border-radius: 4px;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #fffefc;
+    color: #333;
+    flex: 1 1 200px;
+    min-width: 180px;
 }
 
-button {
-    padding: 8px 15px;
+#filter_category {
+    max-width: 250px;
+}
+
+#list_index button {
     background-color: #6c584c;
     color: white;
+    padding: 10px 18px;
+    border-radius: 6px;
     border: none;
-    border-radius: 4px;
+    font-weight: bold;
     cursor: pointer;
-
+    transition: background-color 0.2s ease;
 }
 
-button:hover {
+#list_index button:hover {
     background-color: #5a4a3f;
-
-
 }
+
 
 a {
     color: #6c584c;
