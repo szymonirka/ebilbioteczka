@@ -6,6 +6,7 @@ body {
     max-width: 600px;
     margin: 0 auto;
     padding: 2rem;
+    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
 }
 
 h1 {
