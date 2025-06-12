@@ -183,7 +183,7 @@ function checkLoginStatus() {
         logoutDiv.innerHTML = '';
         adminLinkDiv.innerHTML = '';
         userActionsDiv.innerHTML = `
-            <button onclick="goToLogin()">Zaloguj się</button>
+            <button class="cta" onclick="goToLogin()">Zaloguj się</button>
         `;
         return;
     }
@@ -194,7 +194,7 @@ function checkLoginStatus() {
         const role = payload.role;
 
         statusDiv.textContent = `Zalogowany jako: ${username}`;
-        logoutDiv.innerHTML = `<button onclick="logout()">Wyloguj się</button>`;
+        logoutDiv.innerHTML = `<button class="cta" onclick="logout()">Wyloguj się</button>`;
 
         if (role === 'admin') {
             adminLinkDiv.innerHTML = `<a href="admin.html">Panel Administratora</a>`;
@@ -210,7 +210,7 @@ function checkLoginStatus() {
         logoutDiv.innerHTML = '';
         adminLinkDiv.innerHTML = '';
         userActionsDiv.innerHTML = `
-            <button onclick="goToLogin()">Zaloguj się</button>
+            <button class="cta" onclick="goToLogin()">Zaloguj się</button>
         `;
     }
 }
@@ -226,9 +226,16 @@ function logout() {
 
 window.addEventListener('DOMContentLoaded', () => {
     checkLoginStatus();
-    loadBooks();
-    loadLatestBooks().then(() => {
-        initCarousel();
-        startAutoScroll();
-    });
+
+    if (document.getElementById('book_list')) {
+        loadBooks();
+    }
+
+    if (document.getElementById('latest_carousel')) {
+        loadLatestBooks().then(() => {
+            initCarousel();
+            startAutoScroll();
+        });
+    }
 });
+

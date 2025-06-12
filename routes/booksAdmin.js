@@ -27,7 +27,7 @@ router.post('/', auth, isAdmin, upload.single('pdf'), async (req, res) => {
             'INSERT INTO books (title, author, content, category, pdf_path) VALUES (?, ?, ?, ?, ?)',
             [title, author, content, category, pdfPath]
         );
-        res.json({ message: 'Książka została dodana z PDF.' });
+        res.json({ message: 'Książka została dodana.' });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Błąd podczas dodawania książki.' });
@@ -48,20 +48,20 @@ router.delete('/:id', auth, isAdmin, async (req, res) => {
 
 // Edytuj książkę
 router.put('/:id', auth, isAdmin, upload.single('pdf'), async (req, res) => {
-    const { title, author, category } = req.body;
+    const { title, author, category, content } = req.body; // ⬅️ dodano `content`
     const pdfPath = req.file ? `/uploads/${req.file.filename}` : null;
     const bookId = req.params.id;
 
     try {
         if (pdfPath) {
             await pool.query(
-                'UPDATE books SET title = ?, author = ?, category = ?, pdf_path = ? WHERE id = ?',
-                [title, author, category, pdfPath, bookId]
+                'UPDATE books SET title = ?, author = ?, category = ?, content = ?, pdf_path = ? WHERE id = ?',
+                [title, author, category, content, pdfPath, bookId]
             );
         } else {
             await pool.query(
-                'UPDATE books SET title = ?, author = ?, category = ? WHERE id = ?',
-                [title, author, category, bookId]
+                'UPDATE books SET title = ?, author = ?, category = ?, content = ? WHERE id = ?',
+                [title, author, category, content, bookId]
             );
         }
         res.json({ message: 'Książka została zaktualizowana.' });
@@ -70,6 +70,7 @@ router.put('/:id', auth, isAdmin, upload.single('pdf'), async (req, res) => {
         res.status(500).json({ message: 'Błąd podczas aktualizacji książki.' });
     }
 });
+
 
 // Pobierz wszystkie książki
 router.get('/', auth, isAdmin, async (req, res) => {

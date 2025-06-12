@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel Administratora</title>
-  <script src="script.js"></script>
+
 </head>
 <body>
 <header id="navbar">
@@ -211,8 +211,8 @@
         <strong>${book.title}</strong> – ${book.author}
         </div>
         <div class="right-side">
-                <button id="delete_button" onclick="deleteBook(${book.id})">🗑️ Usuń</button>
-        <button id="edit_button" onclick="showEditForm(${book.id}, '${book.title}', '${book.author}', '${book.category}')">✏️ Edytuj</button>
+                <button class="btn danger-btn" onclick="deleteBook(${book.id})">Usuń</button>
+        <button class="btn primary-btn" onclick="showEditForm(${book.id}, '${book.title}', '${book.author}', '${book.category}')">Edytuj</button>
         </div>
         `;
       list.appendChild(li);
@@ -222,7 +222,7 @@
 
   //formularz edycji ksiazki
 
-  function showEditForm(id, title, author, category) {
+  function showEditForm(id, title, author, category, content) {
     const editSection = document.createElement('div');
     editSection.id = 'editSection_' + id;
 
@@ -241,16 +241,37 @@
     ).join('');
 
     editSection.innerHTML = `
-        <h3>Edytuj książkę (ID: ${id})</h3>
-        <input type="text" id="edit_title_${id}" value="${title}" placeholder="Tytuł"><br>
-        <input type="text" id="edit_author_${id}" value="${author}" placeholder="Autor"><br>
-        <label for="edit_category_${id}">Kategoria:</label>
-        <select id="edit_category_${id}">${categoryOptions}</select><br>
-        <input type="file" id="edit_pdf_${id}" accept="application/pdf"><br><br>
-        <button onclick="submitEdit(${id})">Zapisz zmiany</button>
-        <button onclick="cancelEdit(${id})">Anuluj</button>
-        <hr>
-    `;
+  <h3>Edytuj książkę (ID: ${id})</h3>
+
+  <div class="edit-form-group">
+    <label for="edit_title_${id}">Tytuł:</label>
+    <input type="text" id="edit_title_${id}" value="${title}">
+  </div>
+
+  <div class="edit-form-group">
+    <label for="edit_author_${id}">Autor:</label>
+    <input type="text" id="edit_author_${id}" value="${author}">
+  </div>
+
+  <div class="edit-form-group">
+    <label for="edit_category_${id}">Kategoria:</label>
+    <select id="edit_category_${id}">${categoryOptions}</select>
+  </div>
+
+  <div class="edit-form-group">
+    <label for="edit_content_${id}">Opis:</label>
+    <textarea id="edit_content_${id}">${content}</textarea>
+  </div>
+
+  <div class="edit-form-group">
+    <label for="edit_pdf_${id}">Plik PDF:</label>
+    <input type="file" id="edit_pdf_${id}" accept="application/pdf">
+  </div>
+
+  <button class="btn primary-btn" onclick="submitEdit(${id})">Zapisz zmiany</button>
+  <button class="btn danger-btn" onclick="cancelEdit(${id})">Anuluj</button>
+  <hr>
+`;
 
     const list = document.getElementById('book_list');
     list.parentNode.insertBefore(editSection, list.nextSibling);
@@ -263,12 +284,15 @@
     const title = document.getElementById(`edit_title_${id}`).value;
     const author = document.getElementById(`edit_author_${id}`).value;
     const category = document.getElementById(`edit_category_${id}`).value;
+    const content = document.getElementById(`edit_content_${id}`).value; // <-- DODANE
     const pdfFile = document.getElementById(`edit_pdf_${id}`).files[0];
 
     const formData = new FormData();
     formData.append('title', title);
     formData.append('author', author);
     formData.append('category', category);
+    formData.append('content', content); // <-- DODANE
+
     if (pdfFile) {
       formData.append('pdf', pdfFile);
     }
@@ -290,8 +314,8 @@
       console.error(err);
       alert('Błąd podczas edycji książki.');
     }
-
   }
+
   // anulowanie edycji ksiazki
   function cancelEdit(id) {
     const editForm = document.getElementById(`editSection_${id}`);

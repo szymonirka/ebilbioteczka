@@ -285,9 +285,7 @@ body {
     font-size: 0.9rem;
 }
 
-input[type="file"] {
-    display: none;
-}
+
 
 /* Buttons */
 .btn {
@@ -427,4 +425,43 @@ footer {
     .form-group select {
         padding: 0.8rem;
     }
+}
+
+.danger-btn {
+    background-color: #b00020;
+    color: white;
+    box-shadow: var(--shadow);
+}
+
+.danger-btn:hover {
+    background-color: #8e0018;
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+.edit-form-group {
+    margin-bottom: 1.2rem;
+}
+
+.edit-form-group label {
+    display: block;
+    margin-bottom: 6px;
+    color: #6c584c;
+    font-weight: bold;
+}
+
+.edit-form-group input,
+.edit-form-group textarea,
+.edit-form-group select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #d4a373;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #fffefc;
+    box-sizing: border-box;
+}
+
+.edit-form-group textarea {
+    resize: vertical;
+    min-height: 120px;
 }
