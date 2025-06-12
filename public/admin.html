@@ -399,7 +399,7 @@
       const li = document.createElement('li');
       li.innerHTML = `
                     <strong>${user.username}</strong> – ${user.role}
-                    <button onclick="deleteUser(${user.id})">🗑️ Usuń</button>
+                    <button class="btn danger-btn" onclick="deleteUser(${user.id})">Usuń</button>
                 `;
       list.appendChild(li);
     });
