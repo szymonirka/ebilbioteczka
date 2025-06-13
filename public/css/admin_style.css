@@ -71,7 +71,7 @@ header h1 a {
     }
 }
 
-/* Base styles */
+
 body {
     font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
     margin: 0;
@@ -82,7 +82,7 @@ body {
     padding: 20px;
 }
 
-/* Header */
+
 .admin-header {
     background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
     color: white;
@@ -111,14 +111,14 @@ body {
     color: black; !important;
 }
 
-/* Main container */
+
 .admin-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
 }
 
-/* Sections */
+
 .admin-section {
     background: var(--background-white);
     border-radius: 8px;
@@ -158,7 +158,7 @@ body {
     }
 }
 
-/* Forms */
+
 .modern-form {
     display: flex;
     flex-direction: column;
@@ -176,13 +176,13 @@ body {
 }
 
 .left-side {
-    /* Opcjonalnie: jeśli chcesz, aby tekst był dokładnie przy lewej krawędzi */
     margin-right: auto;
 }
 
 .right-side {
-    /* Opcjonalnie: jeśli chcesz, aby przyciski były dokładnie przy prawej krawędzi */
     margin-left: auto;
+    display: flex;
+    gap: 3px;
 }
 .form-group input,
 .form-group textarea,
@@ -227,7 +227,6 @@ body {
     color: var(--primary-color);
 }
 
-/* Select styles */
 .select-group {
     position: relative;
 }
@@ -250,30 +249,34 @@ body {
     pointer-events: none;
 }
 
-/* Textarea styles */
 .form-group textarea {
     min-height: 120px;
     resize: vertical;
 }
 
-/* File input styles */
 .file-group {
     margin-top: 1rem;
+    border: none; !important;
+
 }
 
 .file-label {
     display: flex;
     align-items: center;
     cursor: pointer;
+
 }
+
+
 
 .file-button {
     background-color: var(--primary-light);
     color: white;
-    padding: 0.8rem 1.2rem;
+    padding: 0.2rem 0.8rem;
     border-radius: 4px;
     margin-right: 1rem;
     transition: var(--transition);
+
 }
 
 .file-button:hover {
@@ -286,8 +289,6 @@ body {
 }
 
 
-
-/* Buttons */
 .btn {
     padding: 0.8rem 1.5rem;
     border: none;
@@ -299,6 +300,10 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+}
+
+#user_status {
+    font-weight: bold;
 }
 
 .btn i {
@@ -317,10 +322,19 @@ body {
     transform: translateY(-2px);
 }
 
-/* Card list */
+
 .card-list {
     display: grid;
     gap: 1rem;
+}
+
+.cta {
+    padding: 10px 20px;
+    background-color: #6c584c;
+    color: white;
+    border-radius: 6px;
+    font-weight: bold;
+    text-decoration: none;
 }
 
 .card-list li {
@@ -343,7 +357,6 @@ body {
     font-weight: 500;
 }
 
-/* Footer */
 footer {
     display: flex;
     justify-content: space-between;
@@ -394,14 +407,9 @@ footer {
     margin-right: 0.5rem;
 }
 
-/* Icons (using Unicode as fallback) */
 .icon-book::before { content: "📚"; }
 .icon-users::before { content: "👥"; }
-.icon-add::before { content: "➕"; }
-.icon-add-user::before { content: "👤➕"; }
-.icon-arrow-back::before { content: "←"; }
 
-/* Edit section styles */
 [id^="editSection_"] {
     background: var(--background-white);
     border-radius: 8px;
@@ -410,7 +418,7 @@ footer {
     box-shadow: var(--shadow);
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
     .admin-header h1 {
         font-size: 2rem;

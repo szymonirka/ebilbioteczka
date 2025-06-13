@@ -8,6 +8,10 @@ body {
     line-height: 1.5;
 }
 #hero {
+    background-image: url('../images/man.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     background: linear-gradient(135deg, #f2e8cf, #d4a373);
     color: #333;
     text-align: center;
@@ -35,6 +39,7 @@ body {
 #header_index h1 {
     margin: 0;
     color: #6c584c;
+    text-shadow: 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 #header_index > * {
@@ -42,8 +47,6 @@ body {
 }
 
 
-
-/* Responsywność dla mniejszych ekranów */
 @media (max-width: 768px) {
     #header_index {
         flex-direction: column;
@@ -298,7 +301,6 @@ a:hover {
     background: linear-gradient(45deg, #d9534f, #c9302c);
 }
 
-/* Stopka */
 footer {
     display: flex;
     justify-content: space-between;
@@ -331,7 +333,6 @@ footer {
     font-weight: bold;
 }
 
-/* Responsywność */
 @media (max-width: 768px) {
     #hero h1 {
         font-size: 1.8rem;

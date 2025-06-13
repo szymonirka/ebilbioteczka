@@ -4,6 +4,7 @@
   <link rel="stylesheet" href="css/admin_style.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="script.js"></script>
   <title>Panel Administratora</title>
 
 </head>
@@ -12,8 +13,14 @@
   <div class="nav-left">
     <h1><a href="index.html">📚 eBiblioteczka</a></h1>
   </div>
+
   <nav class="nav-links">
-    <div id="admin_status"></div>
+    <a href="profile.html">Profil</a>
+    <a href="about.html">O nas</a>
+    <span id="admin_panel_link"></span>
+    <div id="profile_link"></div>
+    <span id="user_status"></span>
+    <div id="user_actions"></div>
     <div id="logout_button"></div>
   </nav>
 </header>
@@ -206,7 +213,7 @@
       const li = document.createElement('li');
       li.innerHTML = `
         <div class="side-side">
-        <div/>
+
         <div class="left-side">
         <strong>${book.title}</strong> – ${book.author}
         </div>
@@ -214,6 +221,7 @@
                 <button class="btn danger-btn" onclick="deleteBook(${book.id})">Usuń</button>
         <button class="btn primary-btn" onclick="showEditForm(${book.id}, '${book.title}', '${book.author}', '${book.category}')">Edytuj</button>
         </div>
+        <div/>
         `;
       list.appendChild(li);
     });

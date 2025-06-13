@@ -24,10 +24,10 @@
   </nav>
 </header>
 
-<section id="hero">
+<div id="hero">
   <h1>Nasza misja to edukacja i dostęp do wiedzy</h1>
   <p>eBiblioteczka to więcej niż projekt – to idea wolnego dostępu do literatury.</p>
-</section>
+</div>
 
 <section class="content">
   <div class="intro">
@@ -58,15 +58,33 @@
     </div>
   </div>
 
+
+    <div id="shelf-decs">
+      <h2>Zebraliśmy dla was wiele tytułów, które pomogą wam w nauce, rozwoju czy rozrywce.</h2>
+    </div>
+    <div id="lib-img"></div>
+
+
+
   <div class="dynamic-counter">
     <h2>Nasza biblioteka w liczbach</h2>
     <p>Aktualna liczba książek w eBiblioteczce:</p>
     <div id="bookCounter">0</div>
   </div>
-
-  <div class="cta-section">
-    <a class="cta" href="index.html">← Wróć do strony głównej</a>
-  </div>
+    <div class="contact">
+        <form id="contactForm">
+          <h2>Kontakt</h2>
+          <h3>Masz pytania lub sugestie? Skontaktuj się z nami!</h3>
+          <div id="name-surname">
+            <input type="text" name="name" placeholder="Twoje imię" required>
+            <input type="email" name="email" placeholder="Twój email" required>
+          </div>
+          <div id="main-content">
+            <textarea id="lalala" name="message" placeholder="Twoja wiadomość" required></textarea>
+          </div>
+        <button type="submit" id="submit-button">Wyślij</button>
+        </form>
+    </div>
 </section>
 
 <footer>
@@ -84,7 +102,6 @@
 </footer>
 
 <script>
-  // Symulowany licznik książek – dynamiczny efekt
   const counter = document.getElementById('bookCounter');
   let count = 0;
   const target = 128;

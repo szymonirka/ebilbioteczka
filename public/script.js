@@ -49,6 +49,7 @@ async function loadBooks() {
                     <h3>${book.title}</h3>
                     <p>${book.author}</p>
                     <p><em>${book.category}</em></p>
+                    <p>${book.content}</p>
                     <button onclick="showDetails(${book.id})">Szczegóły</button>
                 `;
 

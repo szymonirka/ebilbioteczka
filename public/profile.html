@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Moje konto</title>
     <link rel="stylesheet" href="css/profile_style.css">
+    <script src="script.js"></script>
 </head>
 <body>
 <header id="navbar">
@@ -21,21 +22,25 @@
         <div id="logout_button"></div>
     </nav>
 </header>
-<div id="main-profile">
-    <h1>Panel użytkownika</h1>
+<div></div>
+<div id="main_back">
+    <div id="main-profile">
+        <h1>Panel użytkownika</h1>
 
-    <h2> Zmień hasło </h2>
-    <input type="password" id="old_password" placeholder="Stare hasło">
-    <input type="password" id = "new_password" placeholder="Nowe hasło">
-    <button onclick="changePassword()">Zmień hasło</button>
+        <h2> Zmień hasło </h2>
+        <input type="password" id="old_password" placeholder="Stare hasło">
+        <input type="password" id = "new_password" placeholder="Nowe hasło">
+        <button class="cta" onclick="changePassword()">Zmień hasło</button>
 
-    <h2>Zmień nazwę użytkownika</h2>
-    <input type="text" id="new_username" placeholder="Nowa nazwa użytkownika">
-    <button onclick="changeUsername()">Zmień nazwę</button>
-    <h2>Usuń konto</h2>
+        <h2>Zmień nazwę użytkownika</h2>
+        <input type="text" id="new_username" placeholder="Nowa nazwa użytkownika">
+        <button class="cta" onclick="changeUsername()">Zmień nazwę</button>
+        <h2>Usuń konto</h2>
 
-    <button onclick="deleteAccount()"> Usuń moje konto</button>
+        <button class="btn danger-btn"   onclick="deleteAccount()"> Usuń moje konto</button>
+    </div>
 </div>
+
 
 <div id="favourite_books">
 
@@ -82,9 +87,11 @@
             books.forEach(book => {
                 const li = document.createElement('li');
                 li.innerHTML = `
-                        <a href="book.html?id=${book.id}">${book.title}</a> – ${book.author}
-
-                        <button onclick="removeFavorite(${book.id})">❌ Usuń</button>
+                        <a href="book.html?id=${book.id}">${book.title}</a>
+                        <br>
+                        <a>${book.author}</a>
+                        <br>
+                        <button class="btn danger-btn"  onclick="removeFavorite(${book.id})">Usuń</button>
                     `;
                 list.appendChild(li);
             });

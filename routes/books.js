@@ -22,6 +22,7 @@ router.get('/', async (req, res) => {
         params.push(category);
     }
 
+
     try {
         const [books] = await pool.query(sql, params);
         res.json(books);
