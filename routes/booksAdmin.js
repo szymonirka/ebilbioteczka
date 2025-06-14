@@ -5,7 +5,7 @@ const auth = require('../middleware/authMiddleware');
 const isAdmin = require('../middleware/isAdmin');
 const multer = require('multer');
 
-//Konfiguracja multer (upload plików)
+//Konfiguracja multer
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'public/uploads/');

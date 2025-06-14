@@ -15,9 +15,11 @@ const favoritesRouter = require('./routes/favorites');
 const userRoutes = require('./routes/users');
 const usersAdminRouter = require('./routes/usersAdmin');
 
+
 // Routing
 app.use('/api/auth', authRoutes);            // Rejestracja i logowanie
 app.use('/api/favorites', favoritesRouter);  // Ulubione książki
+
 
 app.use('/api/admin/books', booksAdminRouter); // administrator ksiazki
 app.use('/api/books', booksRouter); // zwykly uzytkownik ksiazki

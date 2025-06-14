@@ -71,20 +71,24 @@
     <p>Aktualna liczba książek w eBiblioteczce:</p>
     <div id="bookCounter">0</div>
   </div>
-    <div class="contact">
-        <form id="contactForm">
-          <h2>Kontakt</h2>
-          <h3>Masz pytania lub sugestie? Skontaktuj się z nami!</h3>
-          <div id="name-surname">
-            <input type="text" name="name" placeholder="Twoje imię" required>
-            <input type="email" name="email" placeholder="Twój email" required>
-          </div>
-          <div id="main-content">
-            <textarea id="lalala" name="message" placeholder="Twoja wiadomość" required></textarea>
-          </div>
-        <button type="submit" id="submit-button">Wyślij</button>
-        </form>
-    </div>
+  <div class="contact">
+    <form id="contactForm">
+      <h2>Kontakt</h2>
+      <h3>Masz pytania lub sugestie? Skontaktuj się z nami!</h3>
+
+      <div id="name-surname">
+        <input type="text" id="name" placeholder="Twoje imię" required>
+        <input type="email" id="email" placeholder="Twój email" required>
+      </div>
+
+      <div id="main-content">
+        <textarea id="message" placeholder="Twoja wiadomość" required></textarea>
+      </div>
+
+      <button type="submit" id="submit-button">Wyślij</button>
+    </form>
+  </div>
+
 </section>
 
 <footer>
@@ -102,7 +106,27 @@
 </footer>
 
 <script>
+  const form = document.getElementById('contactForm');
+
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      const subject = encodeURIComponent(`Wiadomość od ${name}`);
+      const body = encodeURIComponent(`Imię: ${name}\nEmail: ${email}\n\nWiadomość:\n${message}`);
+
+      const mailTo = `mailto:mazurekszymon718@gmail.com?subject=${subject}&body=${body}`;
+      window.location.href = mailTo;
+
+    });
+
+  }
   window.addEventListener('DOMContentLoaded', animateBookCounter);
 </script>
+
 </body>
 </html>
