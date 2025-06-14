@@ -275,6 +275,18 @@ a:hover {
     background-color: #5a4a3f;
 }
 
+#clock-handler{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+
+#clock {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #6c584c;
+}
 
 #hero {
     background-image: url('../images/man2.jpg');

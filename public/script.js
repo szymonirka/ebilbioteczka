@@ -225,8 +225,18 @@ function logout() {
     window.location.reload();
 }
 
+
+function updateClock() {
+    const now = new Date();
+    const date = now.toLocaleDateString('pl-PL');
+    const time = now.toLocaleTimeString('pl-PL');
+    document.getElementById('clock').textContent = `${date} ${time}`;
+}
+
 window.addEventListener('DOMContentLoaded', () => {
     checkLoginStatus();
+    updateClock();
+    setInterval(updateClock, 1000);
 
     if (document.getElementById('book_list')) {
         loadBooks();
@@ -237,6 +247,8 @@ window.addEventListener('DOMContentLoaded', () => {
             initCarousel();
             startAutoScroll();
         });
+
+
     }
 });
 
