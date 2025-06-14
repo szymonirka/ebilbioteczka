@@ -102,19 +102,7 @@
 </footer>
 
 <script>
-  const counter = document.getElementById('bookCounter');
-  let count = 0;
-  const target = 128;
-
-  function animateCounter() {
-    if (count < target) {
-      count++;
-      counter.innerText = count;
-      setTimeout(animateCounter, 20);
-    }
-  }
-
-  window.addEventListener('load', animateCounter);
+  window.addEventListener('DOMContentLoaded', animateBookCounter);
 </script>
 </body>
 </html>

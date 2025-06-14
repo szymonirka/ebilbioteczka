@@ -45,6 +45,16 @@ router.get('/latest', async (req, res) => {
     }
 });
 
+router.get('/count', async (req, res) => {
+    try {
+        const [rows] = await pool.query('SELECT COUNT(*) as count FROM books');
+        res.json({ count: rows[0].count });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Błąd pobierania liczby książek' });
+    }
+});
+
 // szczegoly danej ksiazki
 router.get('/:id', async (req, res) => {
     const bookId = req.params.id;

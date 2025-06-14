@@ -225,6 +225,31 @@ function logout() {
     window.location.href = "index.html";
 }
 
+async function animateBookCounter() {
+    const counter = document.getElementById('bookCounter');
+    let count = 0;
+    let target = 0;
+
+    try {
+        const res = await fetch('/api/books/count');
+        const data = await res.json();
+        target = data.count;
+    } catch (err) {
+        console.error('Błąd pobierania liczby książek:', err);
+        target = 0;
+    }
+
+    function animate() {
+        if (count < target) {
+            count++;
+            counter.innerText = count;
+            setTimeout(animate, 20);
+        } else {
+            counter.innerText = target;
+        }
+    }
+    animate();
+}
 
 function updateClock() {
     const now = new Date();
