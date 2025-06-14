@@ -222,7 +222,7 @@ function goToLogin() {
 
 function logout() {
     localStorage.removeItem('token');
-    window.location.reload();
+    window.location.href = "index.html";
 }
 
 
