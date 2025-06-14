@@ -41,6 +41,12 @@
 
 <script>
   // Automatyczne przekierowanie jeżeli zalogowany
+  let counter = 0;
+  let loginfield = document.getElementById("login_username");
+  let passwordfield = document.getElementById("login_password");
+  loginfield.disabled = false;
+  passwordfield.disabled = false;
+
   const token = localStorage.getItem('token');
   if (token) {
     window.location.href = "index.html";
@@ -87,9 +93,13 @@
         window.location.href = "index.html";
       } else {
         showFeedback(data.message || 'Błędne dane logowania', true);
+        counter ++;
+        if (counter < 6){
+        };
       }
     } catch (err) {
       showFeedback('Błąd logowania.', true);
+
     }
   }
 
@@ -132,6 +142,13 @@
     feedback.style.color = isError ? 'red' : 'green';
     feedback.textContent = message;
     setTimeout(() => feedback.textContent = '', 4000);
+
+  console.log(counter);
+    if (counter >= 6) {
+        loginfield.disabled = true;
+        passwordfield.disabled = true;
+        showFeedback('Przekroczono limit prób logowania. Spróbuj ponownie później.', true);
+        }
   }
 </script>
 
